@@ -1,5 +1,7 @@
 ![Lab title](images/watsonx-assistant-lab-title.png "Lab title")
 
+<!-- >Lab: Create a chatbot with IBM Watsonx Assistant<-->
+
 IBM watsonx Assistant, focused on using actions to build customer conversations, is designed to make it simple enough for anyone to build a virtual assistant. Building, testing, publishing, and analyzing your assistant can all now be done in one simple and intuitive interface.
 
 You can use IBM watsonx Assistant to build your own branded live chatbot into any device, application, or channel. Your chatbot, which is also known as an assistant, connects to the customer engagement resources you already use to deliver an engaging, unified problem-solving experience to your customers.
@@ -552,3 +554,21 @@ In this lab, you learned how to complete the following tasks:
 
 # Next steps
 Return to the course to complete the module and assessment.
+
+## Additional resources
+
+- Try <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/quickstart-tutorials.html?context=wx" target="_blank">watsonx quick start tutorials</a>.
+- <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-models.html?context=wx" target="_blank">Supported foundation models in watsonx.ai</a>
+- View more <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/videos-wx.html?context=wx" target="_blank">videos</a>
+- [Overview of watsonx](https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/overview-wx.html?context=wx)
+- Find sample data sets, projects, models, prompts, and notebooks in the Resource Hub to gain hands-on experience:
+
+   ![Notebook](images/notebook.svg "Notebook") [Notebooks](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=notebook) that you can add to your project to get started analyzing data and building models.
+
+   ![Project](images/ibm-cloud--projects.svg "Project") [Projects](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=project-template) that you can import containing notebooks, data sets, prompts, and other assets.
+
+   ![Data set](images/data--set.svg "Data set") [Data sets](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=dataset) that you can add to your project to refine, analyze, and build models.
+
+   ![Prompt](images/prompt.svg "Prompt") [Prompts](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=example-prompt) that you can use in the Prompt Lab to prompt a foundation model.
+
+   ![Model](images/model.svg "Model") [Foundation models](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=foundation-model) that you can use in the Prompt Lab.
