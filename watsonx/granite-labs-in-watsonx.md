@@ -1,7 +1,5 @@
 # Run IBM Granite Labs in IBM watsonx
 
-# Overview
-
 You can run any of the recipes in the [Granite Snack Cookbook](https://github.com/ibm-granite-community/granite-snack-cookbook/blob/main/README.md) in IBM watsonx.
 
 # Contents
@@ -9,9 +7,9 @@ You can run any of the recipes in the [Granite Snack Cookbook](https://github.co
 Complete the following tasks to run a recipe in IBM watsonx.
 
 - [Task 1: Sign up for an IBM watsonx trial account](#task01)
-- [Task 2: ](#task02)
-- [Task 3: ](#task03)
-- [Task 4: ](#task04)
+- [Task 2: Obtain your credentials for programmatic access](#task02)
+- [Task 3: Associate the watsonx.ai Runtime service with your project](#task03)
+- [Task 4: Create a notebook in the project](#task04)
 
 # Task 1: Sign up for an IBM watsonx trial account
 <a name="task01">
@@ -78,7 +76,7 @@ When you sign up for a watsonx account, a sandbox project is created for you. Fo
 
 1. Click **Associate*.
 
-# Task 4: Create a notebook
+# Task 4: Create a notebook in the project
 <a name="task04">
 
 You can create a notebook based on a URL to import this notebook into a project. Follow these steps to create the notebook:
