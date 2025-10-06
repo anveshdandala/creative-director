@@ -236,7 +236,7 @@ In this task, you will use the Prompt Lab to generate a simple JSON file, experi
 
 Follow these steps to prompt a flan foundation model:
 
-1. In the Prompt Lab, click **New prompt** in Structured mode.
+1. In the Prompt Lab, click **+** to start a new prompt in Structured mode.
 2. Verify that that the **flan-ul2-20b** model is selected.
 3. In the _Model parameters_, set the following parameters:
     - **Decoding** to **Sampling**
