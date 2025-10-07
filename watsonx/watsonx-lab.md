@@ -281,7 +281,7 @@ The Prompt Lab generated a notebook for you. Follow these steps to tweak and run
    - From the model’s point of view, everything between the pair of triple double quotes (“””) is the prompt.
    - This is a one-shot prompt You can use this notebook to quickly test out a few-shot example – simply insert another sample section in the cell.
    - The words Input and Output are not fixed; you can change them. For example, you could change **Output** to **Summarize** or **Conclusion**.
-1. Run the cell in the _Execution_ section which pairs the defined model object with the input to generate the response.<br/><img src="images/execution.png" width="100%" alt="Notebook image" title="Notebook image">
+1. Run the cell in the _Execution_ section which pairs the defined model object with the input to generate the response.<br/><img src="images/execution02.png" width="100%" alt="Notebook image" title="Notebook image">
 
 [Back to the top](#top)
 
