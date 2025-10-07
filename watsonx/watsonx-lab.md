@@ -246,18 +246,18 @@ As seen previously, you can save your work in three formats: a prompt template, 
 1. From the watsonx home screen, verify that your sandbox project is selected as highlighted in the following image:<br/>
    ![watsonx home screen](images/home-screen.png "watsonx home screen")
 2. Click **Open Prompt Lab**.
-3. Click the **Saved prompts** icon ![Saved prompts icon](images/saved-prompts-icon.svg "Saved prompts icon"), and open the **flan model prompt**.
+3. Click the **Saved prompts** icon ![Saved prompts icon](images/saved-prompts-icon.svg "Saved prompts icon"), and open the **Structured mode prompts**.
 4. Click the **History** icon ![History icon](images/history.svg "History icon") to open the history of this prompt session.
 5. If the most recent version is not select, select the **Now** version.
 6. Click **Save work > Save as**.
 7. Select **Standard notebook**.
 8. For the name, type:
    ```
-   Flan_ul2_notebook
+   structure_prompts_notebook
    ```
 9. For the description, type:
    ```
-   Jupyter notebook - Flan ul2 prompt
+   Jupyter notebook - structured prompt
    ```
 10. Select the **View in project after saving** option.
 11. Click **Save**. The Jupyter notebook opens in your project.<br/>
