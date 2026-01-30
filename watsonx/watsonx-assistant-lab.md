@@ -42,8 +42,7 @@ IBM watsonx Assistant is available as a fully managed service on IBM. If you alr
 1. In a web browser, navigate to <a href="https://cloud.ibm.com" target="_blank">IBM Cloud</a>.
 2. Log in with your IBM Cloud credentials, or create an account on IBM Cloud.
 3. On the dashboard, click **Create resource**.
-4. Select the **AI/Machine Learning** category.
-5. Select **watsonx Assistant**.
+4. Search for, and then select **watsonx Assistant**.
 6. Select the **Lite** plan.
 7. Select the **I have read and agree to the following license agreements** checkbox.
 8. Click **Create**. When the instance is provision, the watsonx Assistant service instance page displays.
@@ -225,7 +224,7 @@ Follow these steps to create a step that displays the saved email address to the
 
 In Task 5a, you request a confirmation (Yes or No) response from the user; however, you don't treat the user's responses separately. In this scenario, the third step of the action is the end of the action, which should only be reached if the user agrees with the saved email. Follow these steps to explore conditions for handling both responses appropriately:
 
-1. In Step 3, from the _Is taken_ drop-down list, **with conditions**.
+1. In Step 3, from the _Is taken_ drop-down list, select **with conditions**.
 2. Review the populated condition as _If All of this is true:_ **2\. Please confirm your email address** **is** **Yes**. <br/>![Hi action](images/wxa-hi-action-09.png "Hi action")<br/>The next case occurs when the user answers **No**; in which case we simply loop back and repeat the action from Step 1.
 3. Click **New step**.
 4. From the _Is taken_ drop-down list, **with conditions**.
@@ -306,7 +305,7 @@ Follow these steps to respond to the user differently based on the option that t
     1. In the _Source_ URL field, paste the image URL. For example:
 
         ```
-        https://www.ibm.com/content/dam/connectedassets-adobe-cms/worldwide-content/cdp/cf/ul/g/2a/6d/ibm-watsonxai-a04.component.cta-section-item-xl.ts=1734470596461.png/content/adobe-cms/us/en/watson/jcr:content/root/table_of_contents/content_section_styl/content-section-body/cta_section/container/cta_section_row/cta_section_item/image
+        https://assets.ibm.com/is/image/ibm/ibm_watsonx_paid_1200x627-04?dpr=on%2C1&wid=1536&hei=803
         ```
 
     1. Complete the additional fields on the form.
@@ -315,26 +314,32 @@ Follow these steps to respond to the user differently based on the option that t
 1. In the _And then_ field, select **Re-ask previous step(s)** to create a loop.
     - Select the first step.
     - Click **Apply**.
-2. Repeat these steps to add three additional steps for the other responses:
-    - Click the **Video** icon ![Video response type icon](images/video-add-icon.svg "Video response type icon"): **2\. Please select one of the following options to see an example of different response types: is Video**: Add a video URL for the assistant’s response. For example:
+2. Repeat these steps to add four additional steps for the other responses:
+    - Step 2: Click the **Video** icon ![Video response type icon](images/video-add-icon.svg "Video response type icon"): **2\. Please select one of the following options to see an example of different response types: is Video**: Add a video URL for the assistant’s response. For example:
 
-    ```
-    https://youtu.be/WZMJHh4yz6g?si=REN-PEk3dgzl7TCa
-    ```
+      ```
+      https://youtu.be/WZMJHh4yz6g?si=REN-PEk3dgzl7TCa
+      ```
 
-    - Click the **Audio** icon ![Audio response type icon](images/music-icon.svg "Audio response type icon"):  **3\. Please select one of the following options to see an example of different response types: is Audio**: Add a URL to embed the audio, for example:
+      or
 
-    ```
-    https://watson-developer-cloud.github.io/doc-tutorial-downloads/text-to-speech/samples-latest/en-US_EmmaExpressive.wav
-    ```
+      ```
+      https://vimeo.com/814318967
+      ```
 
-    - Click the **Iframe** icon ![Iframe response type icon](images/iframe-icon.svg "Iframe response type icon"): **4\. Please select one of the following options to see an example of different response types: is Iframe**:
-      - Add a URL to embed in an iframe, for example:
-    ```
-    https://video.ibm.com/embed/channel/23952663/video/wa-search
-    ```
+    - Step 3: Click the **Audio** icon ![Audio response type icon](images/music-icon.svg "Audio response type icon"):  **3\. Please select one of the following options to see an example of different response types: is Audio**: Add a URL to embed the audio, for example:
+
+      ```
+      https://watson-developer-cloud.github.io/doc-tutorial-downloads/text-to-speech/samples-latest/en-US_EmmaExpressive.wav
+      ```
+
+    - Step 4: Click the **Iframe** icon ![Iframe response type icon](images/iframe-icon.svg "Iframe response type icon"): **4\. Please select one of the following options to see an example of different response types: is Iframe**:
       - Enable **Display iframe inline**.
-    - **5\. Please select one of the following options to see an example of different response types: is Stop**. To avoid an infinite loop, set the _And then_ action to **End the action** rather than repeat the steps. With this setting, the action stops when the user chooses the option **Stop** in Step 1. <br/>![Response types action](images/wxa-response-types-06.png "Response types action")
+      - Add a URL to embed in an iframe, for example:
+        ```
+        https://video.ibm.com/embed/channel/23952663/video/wa-search
+        ```
+    - Step 5: **5\. Please select one of the following options to see an example of different response types: is Stop**. To avoid an infinite loop, set the _And then_ action to **End the action** rather than repeat the steps. With this setting, the action stops when the user chooses the option **Stop** in Step 1. <br/>![Response types action](images/wxa-response-types-06.png "Response types action")
 
 1. Click the **Visualization** tab to see a visual representation of the conversation flow.
 2. Click **Preview** to test your new assistant. For example, start the conversation with one of the example phrases.
@@ -470,15 +475,16 @@ Follow these steps to create the second step which will confirm the user's quest
 1. For the _Extension_, select **My watsonx extension**.
 1. For the _Operation_, select **Generation**.
 1. Select the following parameters:
-   - **version**:
+   - **version**: Enter text:
      ```
-     2023-5-29
+     2025-04-16
      ```
    - **input**: From the context menu, choose **Session variables > question**.
    - **model_id**: Enter text:
      ```
      ibm/granite-3-3-8b-instruct
      ```
+     **Note:** Refer to [Supported foundation models in watsonx.ai](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-models.html?context=wx) for details on currently supported foundation models.
    - **project_id**: Enter text: Paste your project ID.
 1. Optional: Set any other additional parameters. For example, set the *parameters.max_new_tokens* to `300`.
 1. Click **Apply**.<br/>![Integrations](images/wxa-extension-02.png "Integrations")
@@ -508,13 +514,13 @@ Follow these steps to create a third step to show the response from watsonx to t
 
 1. In the *Assistant says* field, type:
    ```
-   The answer to your question, 
+   The answer to your question, "
    ```
 2. Click the **Insert a variable** icon ![Insert a variable icon](images/function-math.svg "Insert a variable icon").
 3. From the context menu, choose **Action step variables > 1. Sure! What is your question?**.
 4. Type:
    ```
-   , is 
+   ", is 
    ```
 5. Click the **Insert a variable** icon ![Insert a variable icon](images/function-math.svg "Insert a variable icon").
 6. From the context menu, choose **Session variables > response**.

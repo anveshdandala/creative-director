@@ -81,6 +81,7 @@ The Prompt Lab is available within a project. Follow these steps to open the Pro
 
 Foundation models are large-scale pre-trained models that serve as the base for various AI applications. See [Supported foundation models in watsonx.ai](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-models.html?context=wx) for a complete list of supported foundation models. Follow these steps to select a foundation model:
 
+1. Select **Structured** mode.
 1. Select the **Model** drop-down list to **View all foundation models**.<br/>
    ![View all foundation models](images/view-foundation-models.png "View all foundation models")
 2. Click the **Filter** icon ![Filter icon](images/filter.svg "Filter icon").
@@ -115,7 +116,7 @@ You can save your work in three formats:
 
 Follow these steps to save your work:
 
-1. Click **Save work > Save as**.
+1. Click the **Save work** icon ![Save work icon](images/save.svg "Save work icon"), and then select **Save as**.
 2. Select **Prompt session**.
 3. For the name, type:
    ```
@@ -134,7 +135,7 @@ You can chat with the foundation model to see how the model handles dialog or qu
 
 1. Click the **Chat** tab.
 2. Click the **Create a chart of the top NLP use-cases for foundation models** sample.
-3. Click **Clear chat**, and then click **Clear** to confirm that you want to start a new chat session.
+3. Click **Clear chat** icon ![Clear chat icon](images/clear-chat.svg "Clear chat icon"), and then click **Clear** to confirm that you want to start a new chat session.
 4. Click the **Edit system prompt** icon ![Edit system prompt icon](images/system-prompt-icon.svg "Edit system prompt icon").
 5. Provide the foundation model with specific information. For example:
    ```
@@ -193,7 +194,7 @@ You can type your prompt text in a freeform, plain text editor, and then click *
 You can type your prompt in a structured format. The structured format is helpful for few-shot prompting, when your prompt has multiple examples. Follow these steps to use the Prompt Lab in Structured mode:
 
 1. Click the **Structured** tab.
-3. In the Instruction field, copy and paste the following text:  
+3. In the *Instruction* field, copy and paste the following text:  
    
    ```
    Given a message submitted to a customer-support chatbot for a cloud software company, classify the customer's message as either a question or a problem description so the chat can be routed to the correct support team.
@@ -236,7 +237,7 @@ In this task, you will use the Prompt Lab to generate a simple list, Additionall
 
 Follow these steps to prompt a granite foundation model:
 
-1. In the Prompt Lab, click **+** to start a new prompt in Structured mode.
+1. In the Prompt Lab, click **New prompt +** to start a new prompt in Structured mode.
 2. Verify that that the **granite-3-3-8b-instruct** model is selected.
 3. In the _Model parameters_, set the following parameters:
     - **Decoding** to **Sampling**
@@ -255,7 +256,8 @@ Follow these steps to prompt a granite foundation model:
 
 1. Click **Generate**. Notice the output states “\[The input was rejected for containing personal information\]”
 2. Disable **AI guardrails on**. This is necessary to pass personal information in the input text.
-3. Click **Generate**. This result shows the strengths of the *granite* model in that it responded with a natural language output. Notice that there is additional text beyond the steps. In the next task, you stop the response before the additional text.</br>![Response](images/response.png "Response")
+3. Click **Generate**. This result shows the strengths of the *granite* model in that it responded with a natural language output. Notice that there is additional text beyond the steps. In the next task, you stop the response before the additional text.
+   </br><img src="images/response.png" width="50%" alt="Output image" title="Output image">
 5. Save your work as a prompt session with the name:
    ```
    granite model prompt
@@ -269,18 +271,11 @@ Follow these steps to specify a stop sequence:
 1. Type the following keystrokes in the *Stop sequences* field: `press the return or enter key twice`<br/>![Stop sequence characters](images/stop-sequence-02.png "Stop sequence characters")
 1. Click the **+** icon to add the sequence. The following image shows the **Stop sequences** field:</br>![Stop sequence](images/stop-sequence-new.png "Stop sequence")
 1. Click **Generate**. The following image shows the output which no longer includes the extra text as the model recognizes the stop sequence and ceases to generate anything after that sequence.<br/>
-   <img src="images/response-stop.png" width="100%" alt="Output image" title="Output image">
+   <img src="images/response-stop.png" width="50%" alt="Output image" title="Output image">
 1. Save your work as a prompt session with the name:
    ```
    Stop criteria prompt
    ```
-
-[Back to the top](#top)
-
-### Explore further
-
-- Remove the stop sequence by clicking **X**. What if you specify just one curly right bracket instead? Does this criteria behave as expected?
-- Remove the previous stop sequence. What if you specify 2 curly right brackets (with no carriage return in between), using this stop sequence: `}}`. Does this criteria behave as expected?
 
 [Back to the top](#top)
 
@@ -312,7 +307,7 @@ As seen previously, you can save your work in three formats: a prompt template, 
 3. Click the **Saved prompts** icon ![Saved prompts icon](images/saved-prompts-icon.svg "Saved prompts icon"), and open the **Structured mode prompt**.
 4. Click the **History** icon ![History icon](images/history.svg "History icon") to open the history of this prompt session.
 5. If the most recent version is not select, select the **Now** version.
-6. Click **Save work > Save as**.
+6. Click the **Save work** icon ![Save work icon](images/save.svg "Save work icon"), and then select **Save as**.
 7. Select **Standard notebook**.
 8. For the name, type:
    ```
@@ -322,7 +317,7 @@ As seen previously, you can save your work in three formats: a prompt template, 
    ```
    Jupyter notebook - Structured prompt
    ```
-10. Select the **View in project after saving** option.
+10. Select the **Open the notebook after saving** option.
 11. Click **Save**. The Jupyter notebook opens in your project.<br/>
 <img src="images/notebook.png" width="75%" alt="Notebook image" title="Notebook image">
 

@@ -67,7 +67,8 @@ Follow these steps to open your sandbox project, and associate your machine lear
 
 Follow these steps to create an access token to use in the notebook:
 
-1. Click the **Access control** tab.
+1. Click the **Access control** page.
+1. Click the **Access tokens** tab.
 2. Click **New access token**.
 3. For the *Name*, type:
    ```
@@ -99,7 +100,7 @@ Using a notebook with custom code provides maximum flexibility for data analysis
 
 Follow these steps to import the example notebook, and run the cells in the notebook:
 
-1. Click your project name in the navigation trail to return to the _Assets_ tab.
+1. Click the **Asset** tab.
 1. Click **New asset** to add the notebook to your project.
 2. In the list of assets that you can create, select **Work with data and models in Python or R notebooks**.
 3. In this case, import a notebook from a **URL**.
@@ -289,35 +290,12 @@ Now that the model is promoted to a deployment space, follow these steps to crea
 5. When the _Status_ changes to **Deployed**, click the deployment name.
 6. On the _API reference_ tab, review the endpoints and code snippets to incorporate this deployed model in your application.
 7. Click the **Test** tab.
-8. Click **Search in space**.
+8. Click **More icon** ![More](images/overflow-menu.svg "More") **> Search in space**.
     1. Select **Data asset > iot_sensor_data_test.csv**.
     2. Click **Confirm**.
 9. Click **Predict**.
 10. Review the prediction and confidence score for each of the test records.
 1. When you are done, close the *Prediction results*.
-
-## Task 4h: Optional: Test the deployment by using Python code
-
-You can use a short script to simulate a real-world scenario where an industrial sensor is sending data to the model. If the model classifies the reading as a failure, the machine stops.
-
-1. Click **IBM watsonx** in the menu bar to return to the home page.
-1. Open your sandbox project.
-1. From the _Assets_ tab, click **New asset**.
-2. In the list of assets that you can create, select **Work with data and models in Python or R notebooks**.
-   Create a notebook containing the code in the appendix and the _iot_sensor_data_test.csv_ dataset. Refer to the  <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/creating-notebooks.html?context=wx" target="_blank">Creating and managing notebooks</a> documentation topic for details on how to create a blank notebook.
-2. Copy the code from the _Appendix_ into the notebook.
-3. Verify that you are using the _public endpoint_ to reach the deployment.
-4. Obtain an API Key:
-    1. From the watsonx home screen, scroll to the _Developer access_ section.
-    2. Click ****Create API key****.
-    3. Provide a name, such as:
-       ```
-       watsonx API key
-       ```
-    4. Click **Create**.
-    5. Click **Copy**, and save it to a text file to be used later.
-    6. Click **Download** to save the API key in a JSON file for future use.
-    7. Copy the _watsonx.ai URL_, and save it to a text file to be used later.<br/>![Output from Python code](images/ml-ds-autoai-code.png)
 
 [Back to the top](#top)
 
@@ -353,7 +331,7 @@ IBM’s open-source Granite Time Series models are pre-trained for multivariate 
     2. Run the three cells to set your credentials.
 3. In the _Working with spaces_ section:
     1. Run the cell with the code `client.spaces.list(limit=10)`.
-    2. Copy the **ID** for your deployment space
+    2. Copy the **ID** for your deployment space.
     3. Paste the ID value in the _space_id_ variable in the previous cell.
     4. Run the three cells in this section.
 
@@ -427,57 +405,6 @@ In this lab, you learned how to complete the following tasks:
 - Save, promote, deploy, and test a machine learning model.
 - Build a multivariate time series forecasting model with Python code in a notebook.
 - Optional: Build a machine learning model with SPSS Modeler.
-
-# Appendix
-
-Code for sending requests and making predictions using the model deployed during the **binary classification with AutoAI** example:
-
-```
-# Imports
-
-import pandas as pd
-import requests
-import time
-
-# Read the data from the file iot_sensor_failure_test.csv
-# Change the path to the file if needed
-df = pd.read_csv('iot_sensor_failure_test.csv')
-df.head()
-
-## Get an access token
-# NOTE: You must manually set API_KEY below using information retrieved from your IBM Cloud account (https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/ml-authentication.html)
-API_KEY = #Your API-Key
-token_response = requests.post('<https://iam.cloud.ibm.com/identity/token>', data={"apikey": API_KEY, "grant_type": 'urn:ibm:params:oauth:grant-type:apikey'})
-mltoken = token_response.json()\["access_token"\]
-
-# Copy the code snippet from the model deployment page. Make sure to use the public endpoint
-# Function to make a prediction on sensor reading
-def get_prediction(payload):
-    header = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + mltoken}
-    # NOTE: manually define and pass the array(s) of values to be scored in the next line
-    payload_scoring = payload
-    # Use the public endpoint for the deployed model. Change &lt;public endpoint&gt;.
-    response_scoring = requests.post(&lt;public endpoint&gt;, json=payload_scoring,
-    headers={'Authorization': 'Bearer ' + mltoken})
-    response = response_scoring.json()
-    prediction = response\['predictions'\]\[0\]\['values'\]\[0\]\[0\]
-    probability = response\['predictions'\]\[0\]\['values'\]\[0\]\[1\] 
-    return prediction, probability
-
-# Run predictions. The first three request should (optionally) not predict a failure if you use the dataset generated with the tutorial
-sensor_data = df.drop(\['fail'\], axis=1)
-input_fields = df.columns\[:-1\].tolist()
-for index, row in sensor_data.iterrows():
-    input_data = row.tolist()
-    payload = {"input_data": \[{"fields": input_fields , "values": \[input_data\]}\]}
-    prediction = get_prediction(payload)
-    if prediction\[0\] == 1:
-       print("Sensor is about to fail. Machine stopped, ", "Probabilities of prediction: ", prediction\[1\])
-       break
-    else:
-       print("Status OK, ", "Probabilities of prediction: ", prediction\[1\])
-       time.sleep(2)
-```
 
 # Next steps
 Return to the course to complete the module and assessment.
