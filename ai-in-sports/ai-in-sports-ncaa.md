@@ -139,7 +139,7 @@ For the training data, you use several [college basketball playoff datasets](htt
    - cbbRegression.csv
    - cbbRegressionHalfData.csv
 
-1.  If necessary, click the **Refresh** icon ![Refresh](../watsonx/refresh.svg "Refresh") to see the list of uploaded CSV files.
+1.  If necessary, click the **Refresh** icon ![Refresh](../watsonx/images/refresh.svg "Refresh") to see the list of uploaded CSV files.
 
 The following image shows the *Assets* tab in the project.
 
