@@ -343,7 +343,7 @@ The following image shows the test results. The results show that the model prob
 
 <a name="part02"></a>
 
-<img src="../images/lab02.png">
+<img src="../watsonx/images/lab02.png">
 
 In this part of the lab, you use the full data set to build, deploy, and test a regression model.
 
