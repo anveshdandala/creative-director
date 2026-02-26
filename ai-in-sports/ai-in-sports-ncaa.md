@@ -51,7 +51,7 @@ When you sign up for a watsonx trial, the watsonx.ai Studio and watsonx.ai Runti
 
 1. Watch this video to see how to sign up for an account:
 
-   <a href="https://video.ibm.com/embed/channel/23952663/video/wx-signup">![Sign up video](../images/video-thumbnail-signup.png "Sign up video")</a>
+   <a href="https://video.ibm.com/embed/channel/23952663/video/wx-signup">![Sign up video](../watsonx/images/video-thumbnail-signup.png "Sign up video")</a>
 
 1. Select your region, for example, **Dallas**.
 
