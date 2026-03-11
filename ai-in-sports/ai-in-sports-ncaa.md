@@ -375,6 +375,10 @@ You use the <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze
 
 ## Task 8a: Create the experiment
 
+1. Click **IBM watsonx** in the banner.
+
+1. Open the **AI in sports** project.
+
 1. From the *Assets* tab, click **New asset > Work with models > Build machine learning or RAG solutions automatically**.
 
 1. On the *Build machine learning models automatically* page, select **Build a machine learning model**, and click **Next**.
