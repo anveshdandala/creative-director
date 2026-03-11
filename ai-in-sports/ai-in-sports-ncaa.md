@@ -243,7 +243,7 @@ The following image shows the completed experiment.
 
 Now that the experiment run is completed, follow these steps to explore the pipelines and save the model:
 
-1. In the *Pipeline leaderboard*, select the top performing pipeline with the lowest accuracy score for holdout data.
+1. In the *Pipeline leaderboard*, select the top performing pipeline with the highest accuracy score for holdout data.
 
 1. On the *Pipeline details* page, select **Feature summary**. Refer to the [College Basketball dataset](https://www.kaggle.com/datasets/andrewsundberg/college-basketball-dataset/data) for complete details on each of the columns in the dataset. Review the following features:
 
