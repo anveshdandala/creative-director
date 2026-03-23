@@ -33,6 +33,14 @@ Complete the following tasks in this lab:
 - [Task 10: Deploy and test the model](#task10)
 - [Optional: Build another regression model](#optional)
 
+# Preview the tutorial
+
+Watch the following video to see a preview of the steps in this tutorial.
+
+**Tip:** Right-click the following thumbnail image, and open the video in a new tab.
+
+<a href="https://video.ibm.com/embed/channel/23952663/video/ncaa-lab">![Video preview of tutorial](../watsonx/images/video-thumbnail-ncaa.jpg "Video preview of tutorial")</a>
+
 <a name="part01"></a>
 
 <img src="../watsonx/images/lab01.png">
@@ -45,11 +53,13 @@ In this part of the lab, you use the full data set to build, deploy, and test a 
 
 When you sign up for a watsonx trial, the watsonx.ai Studio and watsonx.ai Runtime services are provisioned for you. Follow these steps to sign up for a trial account:
 
-1. Visit the watsonx product page at [https://www.ibm.com/products/watsonx](https://www.ibm.com/products/watsonx).
+1. Visit the watsonx product page at [https://www.ibm.com/products/watsonx](https://www.ibm.com/products/watsonx). **Tip:** Right-click the link to open the link in a new tab.
 
 1. Click **Try it for free**.
 
 1. Watch this video to see how to sign up for an account:
+
+   **Tip:** Right-click the following thumbnail image, and open the video in a new tab.
 
    <a href="https://video.ibm.com/embed/channel/23952663/video/wx-signup">![Sign up video](../watsonx/images/video-thumbnail-signup.png "Sign up video")</a>
 
@@ -118,6 +128,8 @@ The following image shows the *Manage* tab in the project.
 <a name="task04"></a>
 
 # Task 4: Add data assets to your project
+
+**Tip:** Right-click the links in this task to open each of them in a new tab.
 
 For the training data, you use several [college basketball playoff datasets](https://www.kaggle.com/datasets/andrewsundberg/college-basketball-dataset/data). Follow these steps to add the datasets to the project:
 
@@ -247,7 +259,9 @@ Now that the experiment run is completed, follow these steps to explore the pipe
 
 1. In the *Pipeline leaderboard*, select the top performing pipeline with the highest accuracy score for holdout data.
 
-1. On the *Pipeline details* page, select **Feature summary**. Refer to the [College Basketball dataset](https://www.kaggle.com/datasets/andrewsundberg/college-basketball-dataset/data) for complete details on each of the columns in the dataset. Review the following features:
+1. On the *Pipeline details* page, select **Feature summary**. Refer to the [College Basketball dataset](https://www.kaggle.com/datasets/andrewsundberg/college-basketball-dataset/data) for complete details on each of the columns in the dataset. **Tip:** Right-click the link to open the link in a new tab.
+
+   Review the following features:
 
    - **BARTHAG** estimates the probability that a team would beat an average Division I team.
    - **WAB** measures a team's record strength by comparing their actual record against how an average bubble team (that is, a team on the verge of making or missing the tournament) would perform against the same schedule.
@@ -601,6 +615,8 @@ In this lab, you learned how to complete the following tasks:
 - Deploy and test the machine learning model.
 
 # Additional resources
+
+**Tip:** Right-click the links to open each of them in a new tab.
 
 - Try <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/quickstart-tutorials.html?context=wx" target="_blank">watsonx quick start tutorials</a>.
 - <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-models.html?context=wx" target="_blank">Supported foundation models in watsonx.ai</a>
