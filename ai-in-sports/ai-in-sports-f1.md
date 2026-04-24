@@ -203,7 +203,7 @@ Follow these steps to add the datasets to the project:
 
 1. Click the **Assets** tab.
 
-1. Click the **Upload asset to project** icon ![Upload asset to project](../images/data--set.svg "Upload asset to project").
+1. Click the **Upload asset to project** icon ![Upload asset to project](images/data--set.svg "Upload asset to project").
 
 1. Drag the following files into the side panel, and wait for them to upload:
 
@@ -212,7 +212,7 @@ Follow these steps to add the datasets to the project:
    - `f1_resultsTill24_points.csv`
    - `f1_resultsFrom25_testing.csv`
 
-1.  If necessary, click the **Refresh** icon ![Refresh](../images/refresh.svg "Refresh") to see the list of uploaded CSV files.
+1.  If necessary, click the **Refresh** icon ![Refresh](images/refresh.svg "Refresh") to see the list of uploaded CSV files.
 
 The following image shows the *Assets* tab in the project.
 
@@ -254,7 +254,7 @@ The following image shows the AutoAI experiment.
 
 1. Select **Data asset > f1_resultsTill24_TargetPosition.csv**, and click **Select asset**.
 
-1. To view the training data, click the **Options** icon ![Options](/images/overflow-menu.svg "Options"), and then select **Preview data**.
+1. To view the training data, click the **Options** icon ![Options](images/overflow-menu.svg "Options"), and then select **Preview data**.
 
 1. Scroll to the right to see the *target_pos* column. This column indicates the driver's final position. The `target_pos` is used as the prediction column for this experiment.
 
@@ -302,7 +302,7 @@ The following image shows the configured experiment.
 
 1. Click the **Legend** icon ![Legend](images/legend.svg "Legend"), and hover over each item in the legend to see that item on the *Relationship map*.
 
-1. Click the **Rank preferences** icon ![Rank preferences](/images/parameters.svg "Rank preferences"), and change the *Score type* to **Holdout**.
+1. Click the **Rank preferences** icon ![Rank preferences](images/parameters.svg "Rank preferences"), and change the *Score type* to **Holdout**.
 
 The following image shows the completed experiment.
 
@@ -416,7 +416,7 @@ The following image shows the model deployment in the space.
 
 1. On the _API reference_ tab, review the endpoints and code snippets to incorporate this deployed model in your application.
 1. Click the **Test** tab.
-1. On the **Text** tab, click the **Options** icon ![Options](/images/overflow-menu.svg "Options"), and then select **Search in space**.
+1. On the **Text** tab, click the **Options** icon ![Options](images/overflow-menu.svg "Options"), and then select **Search in space**.
     1. Select **Data asset > f1_resultsFrom25_testing.csv**.
     2. Click **Confirm**.
 1. Click **Predict**.
@@ -475,7 +475,7 @@ The following image shows the AutoAI experiment builder.
 
 1. Select **Data asset > f1_resultsTill24_IsPodium.csv**, and click **Select asset**.
 
-1. To view the training data, click the **Options** icon ![Options](/images/overflow-menu.svg "Options"), and then select **Preview data**.
+1. To view the training data, click the **Options** icon ![Options](images/overflow-menu.svg "Options"), and then select **Preview data**.
 
 1. Scroll to the right to see the *is_podium* column. This column indicates if the driver finished on the podium. The `is_podium` is used as the prediction column for this experiment.
 
@@ -565,7 +565,7 @@ Now that you saved the best performing model to the project, follow these steps 
 
 1. Back on the _Assets_ tab, open the model.
 2. Review the AI factsheet containing the relevant data about the model.
-3. Click the **Promote to space** icon ![Promote to space](/images/promote.svg "Promote to space").
+3. Click the **Promote to space** icon ![Promote to space](images/promote.svg "Promote to space").
 4. For the _Target space_, select the same deployment space where the datasets were promoted.
 5. Select the **Go to the model space after promoting it** option.
 6. Click **Promote**.
@@ -597,7 +597,7 @@ The following image shows the model deployment.
 
 1. On the _API reference_ tab, review the endpoints and code snippets to incorporate this deployed model in your application.
 1. Click the **Test** tab.
-1. On the **Text** tab, click the **Options** icon ![Options](/images/overflow-menu.svg "Options"), and then select **Search in space**.
+1. On the **Text** tab, click the **Options** icon ![Options](images/overflow-menu.svg "Options"), and then select **Search in space**.
     1. Select **Data asset > f1_resultsFrom25_testing.csv**.
     2. Click **Confirm**.
 1. Click **Predict**.
@@ -665,7 +665,7 @@ The notebook contains comments and instructions on how to edit the cells before 
 
 1. Click inside the empty cell. 
 
-1. Click the **Options** icon ![Options](/images/overflow-menu.svg "Options"), and then select **Insert project token**.
+1. Click the **Options** icon ![Options](images/overflow-menu.svg "Options"), and then select **Insert project token**.
 
 1. Run the cell.
 
@@ -771,7 +771,7 @@ The following image shows the AutoAI experiment.
 
 1. Select **Data asset > f1_resultsTill24_points.csv**, and click **Select asset**.
 
-1. To view the training data, click the **Options** icon ![Options](/images/overflow-menu.svg "Options"), and then select **Preview data**.
+1. To view the training data, click the **Options** icon ![Options](images/overflow-menu.svg "Options"), and then select **Preview data**.
 
 1. Scroll to the right to see the *points* column. This column indicates the driver's final awarded points. The `points` is used as the prediction column for this experiment.
 
@@ -819,7 +819,7 @@ The following image shows the configured experiment.
 
 1. Click the **Legend** icon ![Legend](images/legend.svg "Legend"), and hover over each item in the legend to see that item on the *Relationship map*.
 
-1. Click the **Rank preferences** icon ![Rank preferences](/images/parameters.svg "Rank preferences"), and change the *Score type* to **Holdout**.
+1. Click the **Rank preferences** icon ![Rank preferences](images/parameters.svg "Rank preferences"), and change the *Score type* to **Holdout**.
 
 The following image shows the completed experiment.
 
@@ -894,7 +894,7 @@ The following image shows the model deployment in the space.
 
 1. On the _API reference_ tab, review the endpoints and code snippets to incorporate this deployed model in your application.
 1. Click the **Test** tab.
-1. On the **Text** tab, click the **Options** icon ![Options](/images/overflow-menu.svg "Options"), and then select **Search in space**.
+1. On the **Text** tab, click the **Options** icon ![Options](images/overflow-menu.svg "Options"), and then select **Search in space**.
     1. Select **Data asset > f1_resultsFrom25_testing.csv**.
     2. Click **Confirm**.
 1. Click **Predict**.
@@ -924,12 +924,12 @@ In this lab, you learned how to complete the following tasks:
 - Read an [overview of watsonx](https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/overview-wx.html?context=wx)
 - Find sample datasets, projects, models, prompts, and notebooks in the Resource Hub to gain hands-on experience:
 
-   ![Notebook](/images/notebook.svg "Notebook") [Notebooks](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=notebook) that you can add to your project to get started analyzing data and building models.
+   ![Notebook](../watsonx/images/notebook.svg "Notebook") [Notebooks](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=notebook) that you can add to your project to get started analyzing data and building models.
 
-   ![Project](/images/ibm-cloud--projects.svg "Project") [Projects](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=project-template) that you can import containing notebooks, datasets, prompts, and other assets.
+   ![Project](../watsonx/images/ibm-cloud--projects.svg "Project") [Projects](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=project-template) that you can import containing notebooks, datasets, prompts, and other assets.
 
-   ![Data sets](/images/data--set--32.svg "Data sets") [Datasets](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=dataset) that you can add to your project to refine, analyze, and build models.
+   ![Data sets](../watsonx/images/data--set--32.svg "Data sets") [Datasets](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=dataset) that you can add to your project to refine, analyze, and build models.
 
-   ![Prompt](/images/prompt.svg "Prompt") [Prompts](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=example-prompt) that you can use in the Prompt Lab to prompt a foundation model.
+   ![Prompt](../watsonx/images/prompt.svg "Prompt") [Prompts](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=example-prompt) that you can use in the Prompt Lab to prompt a foundation model.
 
-   ![Model](/images/model.svg "Model") [Foundation models](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=foundation-model) that you can use in the Prompt Lab.
+   ![Model](../watsonx/images/model.svg "Model") [Foundation models](https://dataplatform.cloud.ibm.com/gallery?context=wx&format=foundation-model) that you can use in the Prompt Lab.
