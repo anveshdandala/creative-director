@@ -2,7 +2,7 @@
 
 ## Overview
 
-In this lab, you use **IBM Bob** in **Code mode** within Visual Studio Code (VS Code) to identify, analyze, and correct errors in a web page written in HTML, CSS, and JavaScript. You work through a realistic troubleshooting scenario and practice writing effective prompts that guide IBM Bob to produce precise, actionable outputs.
+In this lab, you use **IBM Bob** in **Code mode** within Visual Studio Code (VS Code) to identify, analyze, and correct errors in a web page written in HTML, CSS, and JavaScript. You work through a realistic troubleshooting scenario and practice writing effective prompts that guide IBM Bob to produce precise, actionable outputs. The intent of this lab is to troubleshoot your code, and not render an HTML webpage output.
 
 By completing this lab, you gain hands‑on experience using an AI‑infused development assistant to support code review, error analysis, and revision.
 
@@ -79,7 +79,7 @@ You now see your source code in VS Code, with IBM Bob available alongside it.
 
 <img src="./images/00-intro_page_1.png" alt="Intro" width="50%">
 
-Installation notes: <a name="install"></a>
+[!Installation notes:] <a name="install"></a>
 - Make sure you have VS Code installed, see <a href="https://code.visualstudio.com/docs/introvideos/basics" target="_blank">Getting started with VS Code</a>.  
 - Make sure you have **IBM Bob** <a href="https://bob.ibm.com" target="_blank">installed</a>, and review its <a href="https://bob.ibm.com/docs/ide" target="_blank">key capabilities</a> to understand how you can use it as an AI SDLC partner. 
 
