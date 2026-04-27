@@ -17,10 +17,10 @@ After completing this lab, you can:
 
 ## Contents
 
-- [Task 1: Context](#task01)
-- [Task 2: Prompt **IBM Bob** to troubleshoot coding errors](#task02)
-- [Task 3: Prompt **IBM Bob** to re-write your code correctly](#task03)
-- [Task 4: Reflect on how the correct code differs from the original one](#task04)
+- [Task 1: Review the scenario and problem context](#task01)
+- [Task 2: Analyze the code with IBM Bob](#task02)
+- [Task 3: Apply code corrections with IBM Bob](#task03)
+- [Task 4: Reflect on differences between the original and corrected code](#task04)
 
 ***
 
