@@ -77,9 +77,7 @@ Complete the following steps to prepare your environment:
 
 You now see your source code in VS Code, with IBM Bob available alongside it.
 
-<div style="width: 50%;">
-![Intro 1](images/00-intro_page_1.png)
-</div>
+<img src="./images/00-intro_page_1.png" alt="Intro" width="50%">
 
 Installation notes: <a name="install"></a>
 - Make sure you have VS Code installed, see <a href="https://code.visualstudio.com/docs/introvideos/basics" target="_blank">Getting started with VS Code</a>.  
@@ -124,9 +122,7 @@ Examples of issues you might see include:
 
 For each issue, IBM Bob provides a brief explanation of the impact and a suggested correction.
 
-<div style="width: 50%;">
-![Output](images/03-output_1.png)
-</div>
+<img src="./images/03-output_1.png" alt="Output" width="50%">
 
 ***
 
@@ -152,9 +148,7 @@ IBM Bob requests permission to modify the file. Select **Approve**.
 
 VS Code displays the original code and the corrected version side by side. Review the proposed changes carefully.
 
-<div style="width: 50%;">
-![Fix](images/05-fix_errors_save.png)
-</div>
+<img src="./images/05-fix_errors_save.png" alt="Fix error" width="50%">
 
 Typical improvements include:
 
