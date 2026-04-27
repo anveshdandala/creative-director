@@ -77,7 +77,7 @@ Complete the following steps to prepare your environment:
 
 You now see your source code in VS Code, with IBM Bob available alongside it.
 
-<img src="./images/00-intro_page_1.png" alt="Intro" width="50%">
+<img src="./images/00-intro_page_1.png" alt="Intro" width="70%">
 
 >[!Important]
 >*Installation notes:* <a name="install"></a>
