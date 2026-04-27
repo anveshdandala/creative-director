@@ -148,7 +148,7 @@ IBM Bob requests permission to modify the file. Select **Approve**.
 
 VS Code displays the original code and the corrected version side by side. Review the proposed changes carefully.
 
-<img src="./images/05-fix_errors_save.png" alt="Fix error" width="50%">
+<img src="./images/05-fix_errors_save.png" alt="Fix error" width="70%">
 
 Typical improvements include:
 
