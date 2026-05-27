@@ -20,7 +20,7 @@ After completing this lab, you should be able to:
 - Write clear prompts to get the results you want.
 - Build an interactive application that displays player data in a user-friendly way.
 - Create grounded AI-powered summaries that only use the actual player information you have.
-- Practice prompting to ilicit the quality responses.
+- Practice prompting to elicit the quality responses.
 
 
 ***
