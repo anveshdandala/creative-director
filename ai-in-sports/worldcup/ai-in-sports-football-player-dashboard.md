@@ -357,11 +357,11 @@ If you prefer to skip the API setup and data fetching, you can use pre-downloade
 **What to do:**
 
 1. Use the backup player data file from this repository:
-   - Download the [players.json](./data_collect/data/backup_json_players/players.json) from the repository file location: `worldcup/data_collect/data/backup_json_players/players.json`
+   - Download the [players.json](./data_collect/data/backup_json_players/players.json) from the repository file location: `/data_collect/data/backup_json_players/players.json`
 
 2. Copy this file to your project:
    - Create a folder called `src/data` in your project if it doesn't exist.
-   - Copy `worldcup/data_collect/data/backup_json_players/players.json` into `src/data/`.
+   - Copy `/data_collect/data/backup_json_players/players.json` into `src/data/`.
    Your final file should be at: `src/data/players.json`
 
 Once you have the file in place, you can proceed to Task 3.
