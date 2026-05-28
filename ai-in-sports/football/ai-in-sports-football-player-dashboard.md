@@ -8,7 +8,7 @@ In this lab, you'll use IBM Bob to create a web application that displays player
 
 The goal of this lab is to show you how AI can help you build applications, even if you're not an expert programmer. You'll learn how to give clear instructions to IBM Bob, set boundaries for what you want, and use real player data to get accurate results. By the end of the lab, you'll have a working application where users can explore player information, see interesting insights, and view team formations.
 
-![Building a Player Intelligence Board with IBM Bob](./images/football-board.png)
+![Build a Football Player Dashboard with IBM Bob](./images/football-board.png)
 
 ***
 
