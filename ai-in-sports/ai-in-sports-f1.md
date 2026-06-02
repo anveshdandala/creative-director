@@ -721,7 +721,7 @@ The notebook contains comments and instructions on how to edit the cells before 
 
 1. Run the cell in the *Deploy and score* section to deploy the model to the specified deployment space.
 
-1. Run the five cells in the 8Score the model* section to identify the same features list in the testing data, format the test data as a scoring payload, and then send the scoring request.
+1. Run the five cells in the *Score the model* section to identify the same features list in the testing data, format the test data as a scoring payload, and then send the scoring request.
 
 The following image shows the test results.
 
