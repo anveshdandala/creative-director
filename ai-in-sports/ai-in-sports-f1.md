@@ -102,6 +102,15 @@ Complete the following tasks in this lab:
 - [Task 14: Explore and save a pipeline](#task14)
 - [Task 15: Deploy and test the model](#task15)
 
+
+# Preview the tutorial
+
+Watch the following video to see a preview of the steps in this tutorial.
+
+**Tip:** Right-click the following thumbnail image, and open the video in a new tab.
+
+<a href="https://video.ibm.com/embed/channel/23669513/video/f1-racing">![Video preview of tutorial](images/video-thumbnail-f1-racing.jpg "Video preview of tutorial")</a>
+
 <a name="part01"></a>
 
 <img src="images/f1-part01.png">
