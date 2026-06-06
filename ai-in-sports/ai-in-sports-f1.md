@@ -546,7 +546,7 @@ The following image shows the completed experiment.
 
 Now that the experiment run is completed, follow these steps to explore the pipelines and save the model:
 
-1. In the *Pipeline leaderboard*, select the top performing pipeline with the lowest RMSE score for holdout data.
+1. In the *Pipeline leaderboard*, select the top performing pipeline with the highest accuracy score for holdout data.
 
 1. On the *Pipeline details* page, select **Feature summary**. Review the most important features.
 
@@ -716,7 +716,7 @@ The notebook contains comments and instructions on how to edit the cells before 
 
 1. Run the cell in the *Select the features in the test data* section to identify the same features in the test data that were used in the training data.
 
-1. Run the cell in the Generate the predictions* section to generate the predictions using the test data.
+1. Run the cell in the *Generate the predictions* section to generate the predictions using the test data.
 
 ## Publish the model
 
@@ -730,7 +730,7 @@ The notebook contains comments and instructions on how to edit the cells before 
 
 1. Run the cell in the *Deploy and score* section to deploy the model to the specified deployment space.
 
-1. Run the five cells in the 8Score the model* section to identify the same features list in the testing data, format the test data as a scoring payload, and then send the scoring request.
+1. Run the five cells in the *Score the model* section to identify the same features list in the testing data, format the test data as a scoring payload, and then send the scoring request.
 
 The following image shows the test results.
 
