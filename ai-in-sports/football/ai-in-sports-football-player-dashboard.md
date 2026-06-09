@@ -200,7 +200,7 @@ The `template-carbon-react` is a pre-built starter project that includes everyth
       http://localhost:3000
    ```
 
-   You should see the Carbon React starter page.
+   The Carbon React starter page displays.
 
 ![Starter App](./images/app-home-initial.png)
 
@@ -346,7 +346,7 @@ The API requires authentication - that's why you set up the API key in Step 2a. 
 
 1. To confirm permission to complete the tasks, click **Approve**, **Run**, and **Save** when prompted by Bob.
 
-   When the tasks are complete, you should see: `Excellent! The script ran successfully and saved 40 players to src/data/players.json. Let me verify the data was saved correctly by reading a sample of the file.`
+   When the tasks are complete, you see: `Excellent! The script ran successfully and saved 40 players to src/data/players.json. Let me verify the data was saved correctly by reading a sample of the file.`
 
    ![Bob showing the data](./images/bob-get-data.png)
 
@@ -411,7 +411,7 @@ The starter template you downloaded includes many features you don't need for th
 
 1. To confirm permission to complete the tasks, click **Approve**, **Run**, and **Save** when prompted by Bob.
 
-1. After Bob makes these changes, refresh your browser at `http://localhost:3000` to see the simplified application. You should see a clean page with just the *Player Intelligence Board* header.
+1. After Bob makes these changes, refresh your browser at `http://localhost:3000` to see the simplified application. A clean page with just the *Player Intelligence Board* header displays.
 
 ### Task 3b: Add a player selector dropdown
 
@@ -459,7 +459,7 @@ Now let's add the first interactive feature to your application - a dropdown men
 
 1. To confirm permission to complete the tasks, click **Approve**, **Run**, and **Save** when prompted by Bob.
 
-1. After Bob completes the changes, check your browser at `http://localhost:3000`. You should see:
+1. After Bob completes the changes, check your browser at `http://localhost:3000`. You see:
    - A dropdown menu with player names
    - When you select a player, their name displays below the dropdown
 
@@ -567,8 +567,7 @@ Now that you can select a player, let's display their detailed information in a 
 
 1. Now, test the player statistics card:
    1. Go to your browser at `http://localhost:3000`.
-   2. Select a player from the dropdown.
-   3. You should see the player's photo and statistics display.
+   2. Select a player from the dropdown. The player's photo and statistics display.
    4. Try selecting different players - the information should update.
    5. Check that missing information shows "—".
 
@@ -882,7 +881,7 @@ After completing Task 6c, save all files and check your application:
 
 1. Refresh your browser if the application doesn't restart automatically.
 2. In the header, click **Team Formation**.
-4. On the *Team Formation* page, click the **Generate Random Team** button. You should see a basic football field with 11 player photos arranged in formation.
+4. On the *Team Formation* page, click the **Generate Random Team** button. Basic football field displays with 11 player photos arranged in formation.
 6. Click **Player Browser** in the navigation to switch back to the original player browsing page. Both pages should work smoothly.
 
 The field will look basic at this stage - you'll make it look professional in the next step!
