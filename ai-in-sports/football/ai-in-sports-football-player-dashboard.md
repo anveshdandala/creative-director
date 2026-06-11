@@ -27,7 +27,7 @@ After completing this lab, you should be able to:
 
 ## About this lab
 
-In this lab, you build a Player Intelligence Board—an interactive web application that shows how AI can help you explore and analyze player data.
+In this lab, you build a player dashboard; an interactive web application that shows how AI can help you explore and analyze player data.
 
 The application includes the following features:
 
@@ -86,7 +86,7 @@ Complete the prerequisite tasks of [Get started with IBM Bob](get-started-with-i
 - [Task 2: Get player data](#task02)
 - [Task 3: Build the player selector](#task03)
 - [Task 4: Display player statistics](#task04)
-- [Task 5: Understanding Grounded AI (The Most Important Lesson)](#task05)
+- [Task 5: Implement Grounded AI (The Most Important Lesson)](#task05)
 - [Task 6: Build a Team Formation Visualizer](#task06)
 - [Extra Challenges](#challenges)
 - [Summary](#summary)
@@ -210,7 +210,7 @@ The `template-carbon-react` is a pre-built starter project that includes everyth
       http://localhost:3000
    ```
 
-   You should see the Carbon React starter page.
+   The Carbon React starter page displays.
 
 ![Starter App](./images/app-home-initial.png)
 
@@ -356,7 +356,7 @@ The API requires authentication - that's why you set up the API key in Step 2a. 
 
 1. To confirm permission to complete the tasks, click **Approve**, **Run**, and **Save** when prompted by Bob.
 
-   When the tasks are complete, you should see: `Excellent! The script ran successfully and saved 40 players to src/data/players.json. Let me verify the data was saved correctly by reading a sample of the file.`
+   When the tasks are complete, you see: `Excellent! The script ran successfully and saved 40 players to src/data/players.json. Let me verify the data was saved correctly by reading a sample of the file.`
 
    ![Bob showing the data](./images/bob-get-data.png)
 
@@ -388,7 +388,7 @@ In this task, you simplify the template app and create a dropdown component that
 
 ### Task 3a: Clean up the template
 
-The starter template you downloaded includes many features you don't need for this lab - like a complex navigation menu, extra pages, and styling files. Let's remove these unnecessary parts to create a clean, simple starting point for our player intelligence board.
+The starter template you downloaded includes many features you don't need for this lab - like a complex navigation menu, extra pages, and styling files. Let's remove these unnecessary parts to create a clean, simple starting point for our player dashboard.
 
 **What Bob will do:**
 - Remove extra folders and files that add complexity
@@ -398,7 +398,7 @@ The starter template you downloaded includes many features you don't need for th
 1. Copy and paste the following prompt for Bob to clean up the template:
 
    ```text
-   I need to simplify the template application to create a clean starting point for my player intelligence board.
+   I need to simplify the template application to create a clean starting point for my player dashboard.
 
    Please help me:
 
@@ -413,7 +413,7 @@ The starter template you downloaded includes many features you don't need for th
    3. Simplify the main application:
       - Remove any code related to navigation menus or complex layouts.
       - Update it to use modern React style.
-      - Create a simple page with just a header that says "Player Intelligence Board" and a main content area below it.
+      - Create a simple page with just a header that says "Player Dashboard" and a main content area below it.
       - Keep it clean and minimal - no complex navigation.
 
    After these changes, the app should show just a clean page with a header, ready for us to add our player selector.
@@ -421,7 +421,7 @@ The starter template you downloaded includes many features you don't need for th
 
 1. To confirm permission to complete the tasks, click **Approve**, **Run**, and **Save** when prompted by Bob.
 
-1. After Bob makes these changes, refresh your browser at `http://localhost:3000` to see the simplified application. You should see a clean page with just the *Player Intelligence Board* header.
+1. After Bob makes these changes, refresh your browser at `http://localhost:3000` to see the simplified application. A clean page with just the *Player Dashboard* header displays.
 
 ### Task 3b: Add a player selector dropdown
 
@@ -469,7 +469,7 @@ Now let's add the first interactive feature to your application - a dropdown men
 
 1. To confirm permission to complete the tasks, click **Approve**, **Run**, and **Save** when prompted by Bob.
 
-1. After Bob completes the changes, check your browser at `http://localhost:3000`. You should see:
+1. After Bob completes the changes, check your browser at `http://localhost:3000`. You see:
    - A dropdown menu with player names
    - When you select a player, their name displays below the dropdown
 
@@ -577,8 +577,7 @@ Now that you can select a player, let's display their detailed information in a 
 
 1. Now, test the player statistics card:
    1. Go to your browser at `http://localhost:3000`.
-   2. Select a player from the dropdown.
-   3. You should see the player's photo and statistics display.
+   2. Select a player from the dropdown. The player's photo and statistics display.
    4. Try selecting different players - the information should update.
    5. Check that missing information shows "—".
 
@@ -590,7 +589,7 @@ Now that you can select a player, let's display their detailed information in a 
 
 <a name="task05"></a>
 
-## Task 5: Understanding Grounded AI (The Most Important Lesson)
+## Task 5: Implement Grounded AI (The Most Important Lesson)
 
 **What you'll learn:** The difference between using external information sources (like Wikipedia) versus using only your own data. This teaches you a critical concept called "grounding."
 
@@ -865,7 +864,7 @@ This lesson applies to any system where accuracy matters:
    1. Which page is currently being shown (either browser or formation)
    2. The selected team of 11 players
 
-   Create a dark-themed header at the top with the title "Player Intelligence Board" and two navigation menu items:
+   Create a dark-themed header at the top with the title "Player Dashboard" and two navigation menu items:
    - "Player Browser" - switches to the browser page
    - "Team Formation" - switches to the formation page
 
@@ -892,7 +891,7 @@ After completing Task 6c, save all files and check your application:
 
 1. Refresh your browser if the application doesn't restart automatically.
 2. In the header, click **Team Formation**.
-4. On the *Team Formation* page, click the **Generate Random Team** button. You should see a basic football field with 11 player photos arranged in formation.
+4. On the *Team Formation* page, click the **Generate Random Team** button. Basic football field displays with 11 player photos arranged in formation.
 6. Click **Player Browser** in the navigation to switch back to the original player browsing page. Both pages should work smoothly.
 
 The field will look basic at this stage - you'll make it look professional in the next step!
@@ -978,7 +977,7 @@ This final task demonstrates several important web development skills:
 - **Navigation patterns** - Multi-page application with state management
 - **Real-world application** - Creating something visually impressive and practical
 
-You've now completed a full Player Intelligence Board with:
+You've now completed a full Player Dashboard with:
 - Individual player analysis with AI-generated summaries
 - Professional team formation visualization on a realistic football pitch
 - Clean navigation between different application views
@@ -1055,7 +1054,7 @@ This application is built using React (a JavaScript framework). Try recreating i
 
 ## Summary
 
-In this lab, you used IBM Bob to create a Premier League player intelligence board. You learned how to give Bob clear, detailed instructions to build an interactive application with multiple pages, AI-powered player summaries based on real data, and a realistic football field visualization—all using professional design components.
+In this lab, you used IBM Bob to create a Premier League player dashboard. You learned how to give Bob clear, detailed instructions to build an interactive application with multiple pages, AI-powered player summaries based on real data, and a realistic football field visualization—all using professional design components.
 
 ### What you learned
 
