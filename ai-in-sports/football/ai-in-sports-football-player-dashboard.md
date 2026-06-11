@@ -94,6 +94,16 @@ Complete the prerequisite tasks of [Get started with IBM Bob](get-started-with-i
 
 ***
 
+# Preview the tutorial
+
+Watch the following video to see a preview of the steps in this tutorial.
+
+**Tip:** Right-click the following thumbnail image, and open the video in a new tab.
+
+<a href="https://video.ibm.com/embed/channel/23669513/video/football-dashboard">![Video preview of tutorial](images/video-thumbnail-football.jpg "Video preview of tutorial")</a>
+
+***
+
 <a name="task01"></a>
 
 ## Task 1: Set up your environment
