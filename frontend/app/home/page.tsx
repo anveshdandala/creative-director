@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import {
-  Sparkles,
   Film,
   ArrowRight,
   Upload,
@@ -11,39 +10,20 @@ import {
   Sliders,
   Eye,
   MessageSquare,
-  Calendar,
-  Check,
-  Clock,
   AlertCircle,
-  ChevronRight,
   RefreshCw,
   Zap,
   BookOpen,
-  Maximize2,
-  FileText,
-  Volume2,
-  Share2
 } from "lucide-react";
 import Link from "next/link";
-import { useAuth, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { PRESET_EXAMPLES, PresetExample } from "./data";
-import { CreativePlan, DirectorReview } from "./types";
+import { UserButton } from "@clerk/nextjs";
+import { PRESET_EXAMPLES, PresetExample } from "../data";
+import { CreativePlan, DirectorReview } from "../types";
 
-export default function App() {
-  const { isSignedIn, isLoaded } = useAuth();
-  const router = useRouter();
-
-  // Auto-redirect to /home if the user is already signed in
-  useEffect(() => {
-    if (isLoaded && isSignedIn) {
-      router.replace("/home");
-    }
-  }, [isLoaded, isSignedIn, router]);
-
+export default function Studio() {
   // Phase Tab state
   const [activeTab, setActiveTab] = useState<"guide" | "validate">("guide");
-  
+
   // Custom input states for Phase 1 (Creative Guide)
   const [p1Idea, setP1Idea] = useState("");
   const [p1Type, setP1Type] = useState("Video/Reel");
@@ -60,14 +40,13 @@ export default function App() {
   const [p2Result, setP2Result] = useState<DirectorReview | null>(PRESET_EXAMPLES[0].review);
   const [p2Error, setP2Error] = useState<string | null>(null);
 
-  // Selected preset tracking for easy demonstration
+  // Selected preset tracking
   const [selectedPresetId, setSelectedPresetId] = useState<string>("fitness-reel");
 
   // File upload ref
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragActive, setDragActive] = useState(false);
 
-  // Handle Preset Selection
   const selectPreset = (preset: PresetExample) => {
     setSelectedPresetId(preset.id);
     if (activeTab === "guide") {
@@ -79,56 +58,42 @@ export default function App() {
     } else {
       setP2Description(preset.idea);
       setP2Result(preset.review);
-      setP2Image(null); // Clear uploaded files when loading a preset
+      setP2Image(null);
       setP2Error(null);
     }
   };
 
-  // Run Phase 1 - Live Guide Generation via API
   const handleGenerateGuide = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!p1Idea.trim()) return;
-
     setP1Loading(true);
     setP1Error(null);
-    setSelectedPresetId(""); // Clear active preset tag since it's custom
-
+    setSelectedPresetId("");
     try {
       const response = await fetch("/api/guide", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          idea: p1Idea,
-          contentType: p1Type,
-          platform: p1Platform
-        })
+        body: JSON.stringify({ idea: p1Idea, contentType: p1Type, platform: p1Platform }),
       });
-
       const data = await response.json();
-      if (data.error) {
-        throw new Error(data.message || "Failed to generate guide");
-      }
-
+      if (data.error) throw new Error(data.message || "Failed to generate guide");
       setP1Result(data);
-    } catch (err: any) {
-      setP1Error(err.message || "An unexpected error occurred. Please make sure your GEMINI_API_KEY is configured.");
+    } catch (err: unknown) {
+      setP1Error(err instanceof Error ? err.message : "An unexpected error occurred.");
     } finally {
       setP1Loading(false);
     }
   };
 
-  // Run Phase 2 - Live Validation & Review via API
   const handleValidateDraft = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!p2Description.trim() && !p2Image) {
       setP2Error("Please describe your draft or upload an image screenshot.");
       return;
     }
-
     setP2Loading(true);
     setP2Error(null);
-    setSelectedPresetId(""); // Clear active preset tag
-
+    setSelectedPresetId("");
     try {
       const response = await fetch("/api/validate", {
         method: "POST",
@@ -136,57 +101,42 @@ export default function App() {
         body: JSON.stringify({
           draftDescription: p2Description,
           imageBase64: p2Image || undefined,
-          mimeType: p2ImageMime || undefined
-        })
+          mimeType: p2ImageMime || undefined,
+        }),
       });
-
       const data = await response.json();
-      if (data.error) {
-        throw new Error(data.message || "Failed to validate draft");
-      }
-
+      if (data.error) throw new Error(data.message || "Failed to validate draft");
       setP2Result(data);
-    } catch (err: any) {
-      setP2Error(err.message || "An unexpected error occurred. Please make sure your GEMINI_API_KEY is configured.");
+    } catch (err: unknown) {
+      setP2Error(err instanceof Error ? err.message : "An unexpected error occurred.");
     } finally {
       setP2Loading(false);
     }
   };
 
-  // Handle Drag & Drop Events
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
+    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
+    else if (e.type === "dragleave") setDragActive(false);
   };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      processFile(e.dataTransfer.files[0]);
-    }
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      processFile(e.target.files[0]);
-    }
+    if (e.target.files && e.target.files[0]) processFile(e.target.files[0]);
   };
 
-  // Convert uploaded image file to Base64 for the API route
   const processFile = (file: File) => {
     if (!file.type.startsWith("image/")) {
-      setP2Error("Only image file formats (.png, .jpg, .jpeg, .webp) are supported for visual analysis.");
+      setP2Error("Only image file formats (.png, .jpg, .jpeg, .webp) are supported.");
       return;
     }
-
     const reader = new FileReader();
     reader.onload = (event) => {
       if (event.target?.result) {
@@ -195,158 +145,49 @@ export default function App() {
         setP2Error(null);
       }
     };
-    reader.onerror = () => {
-      setP2Error("Failed to read image file.");
-    };
+    reader.onerror = () => setP2Error("Failed to read image file.");
     reader.readAsDataURL(file);
   };
 
-  // Clear current uploaded draft image
   const clearUploadedImage = () => {
     setP2Image(null);
     setP2ImageMime(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
-
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F5] font-sans flex flex-col selection:bg-[#FF4D00] selection:text-white">
 
-      {/* Header Navigation */}
-      <nav className="flex flex-col sm:flex-row justify-between items-center px-6 md:px-12 py-8 border-b border-white/10 gap-4">
+      {/* Studio Header */}
+      <nav className="flex flex-col sm:flex-row justify-between items-center px-6 md:px-12 py-6 border-b border-white/10 gap-4">
         <div className="flex items-center gap-3">
           <div className="w-3.5 h-3.5 bg-[#FF4D00] rounded-full animate-pulse"></div>
           <div>
             <span className="text-sm font-black tracking-[0.2em] uppercase block">AI Creative Director</span>
-            <span className="text-[9px] font-mono text-white/40 tracking-[0.1em] block">HUMAN-CENTERED PARTNER</span>
+            <span className="text-[9px] font-mono text-white/40 tracking-[0.1em] block">STUDIO</span>
           </div>
         </div>
         <div className="flex items-center gap-6 md:gap-10 text-[10px] uppercase tracking-[0.2em] font-medium text-white/70">
           <button
-            onClick={() => { setActiveTab("guide"); scrollToSection("sandbox"); }}
+            onClick={() => setActiveTab("guide")}
             className={`hover:text-[#FF4D00] transition-colors ${activeTab === "guide" && "text-[#FF4D00]"}`}
           >
             Phase 01: Planning
           </button>
           <button
-            onClick={() => { setActiveTab("validate"); scrollToSection("sandbox"); }}
+            onClick={() => setActiveTab("validate")}
             className={`hover:text-[#FF4D00] transition-colors ${activeTab === "validate" && "text-[#FF4D00]"}`}
           >
             Phase 02: Validation
           </button>
-          <button
-            onClick={() => scrollToSection("philosophy")}
-            className="hover:text-[#FF4D00] transition-colors"
-          >
-            Our Ethos
-          </button>
         </div>
-        <div className="flex items-center gap-3">
-          {isLoaded && !isSignedIn && (
-            <>
-              <SignInButton mode="modal">
-                <button className="px-5 py-2 border border-white/20 text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all font-semibold text-white/70">
-                  Sign In
-                </button>
-              </SignInButton>
-              <SignUpButton mode="modal">
-                <button className="px-5 py-2 bg-[#FF4D00] text-white text-[10px] uppercase tracking-widest hover:bg-[#e04300] transition-all font-semibold">
-                  Get Started
-                </button>
-              </SignUpButton>
-            </>
-          )}
-          {isLoaded && isSignedIn && (
-            <div className="flex items-center gap-3">
-              <Link href="/home">
-                <button className="px-5 py-2 bg-[#FF4D00] text-white text-[10px] uppercase tracking-widest hover:bg-[#e04300] transition-all font-semibold">
-                  Open Studio
-                </button>
-              </Link>
-              <UserButton />
-            </div>
-          )}
+        <div className="flex items-center gap-4">
+          <Link href="/" className="text-[10px] uppercase tracking-widest text-white/40 hover:text-white/70 transition-colors font-mono">
+            ← Back
+          </Link>
+          <UserButton />
         </div>
       </nav>
-
-      {/* Main Hero Section */}
-      <header className="relative py-20 md:py-28 px-6 md:px-12 border-b border-white/10 overflow-hidden bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#ff4d000c] via-[#0A0A0A] to-[#0A0A0A]">
-        {/* Decorative Watermark background text */}
-        <div className="absolute -bottom-12 -left-12 text-[150px] md:text-[240px] font-black text-white/[0.01] pointer-events-none select-none uppercase tracking-tighter">
-          Director
-        </div>
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left side: Massive Typography heading */}
-            <div className="lg:col-span-8 space-y-6">
-              <span className="font-mono text-[11px] text-[#FF4D00] uppercase tracking-[0.3em] font-semibold block">
-                [ A Human-First AI Paradigm ]
-              </span>
-              <h1 className="text-5xl sm:text-7xl md:text-[100px] font-black leading-[0.85] tracking-[-0.04em] uppercase">
-                Creative partner<br/>
-                <span className="text-transparent" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.4)" }}>Not content</span><br/>
-                Generator.
-              </h1>
-              <p className="text-lg md:text-xl text-white/70 max-w-2xl font-light leading-relaxed pt-2">
-                Most AI creative tools generate finished content directly—images, captions, videos—which saves time but strips away your creative ownership. 
-                <span className="text-white font-medium"> AI Creative Director </span> 
-                reimagines your workflow. We empower you with guidance before you start, and honest feedback before you publish.
-              </p>
-              
-              <div className="flex flex-wrap items-center gap-4 pt-4">
-                <button
-                  onClick={() => scrollToSection("sandbox")}
-                  className="px-8 py-4 bg-[#FF4D00] text-white hover:bg-[#e04300] font-bold text-xs uppercase tracking-widest transition-all hover:scale-105 flex items-center gap-3 cursor-pointer"
-                >
-                  Enter Live Studio <ArrowRight className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => scrollToSection("tech-stack")}
-                  className="px-8 py-4 border border-white/20 text-white hover:bg-white/5 font-bold text-xs uppercase tracking-widest transition-all cursor-pointer"
-                >
-                  Architecture Specification
-                </button>
-              </div>
-            </div>
-
-            {/* Right side: High Impact visual block info */}
-            <div className="lg:col-span-4 bg-white/5 border border-white/10 p-8 rounded-none space-y-6 backdrop-blur-sm">
-              <div className="flex justify-between items-center border-b border-white/10 pb-4">
-                <span className="font-mono text-[10px] text-white/40 tracking-widest uppercase">System Framework</span>
-                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
-              </div>
-              <div className="space-y-4">
-                <div className="flex gap-4">
-                  <div className="font-mono text-xs text-[#FF4D00] border border-[#FF4D00]/30 h-7 w-7 flex items-center justify-center shrink-0">01</div>
-                  <div>
-                    <h4 className="text-sm font-bold uppercase tracking-wider">The Planning Brief</h4>
-                    <p className="text-xs text-white/60 mt-1">Get precise direction on visual vibe, lighting settings, music tempo, hooks, and full sequence lists before shooting.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="font-mono text-xs text-[#FF4D00] border border-[#FF4D00]/30 h-7 w-7 flex items-center justify-center shrink-0">02</div>
-                  <div>
-                    <h4 className="text-sm font-bold uppercase tracking-wider">Vision Validation</h4>
-                    <p className="text-xs text-white/60 mt-1">Review composition, pacing, frame aesthetics, high-retention captions, and algorithmic posting times with IBM Granite.</p>
-                  </div>
-                </div>
-              </div>
-              <div className="border-t border-white/10 pt-4 text-center">
-                <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest">At every step, the human makes the final call.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Preset Selector Bar */}
       <section className="bg-white/5 border-b border-white/10 py-6 px-6 md:px-12">
@@ -361,8 +202,8 @@ export default function App() {
                 key={preset.id}
                 onClick={() => selectPreset(preset)}
                 className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider transition-all duration-200 border ${
-                  selectedPresetId === preset.id 
-                    ? "bg-[#FF4D00] border-[#FF4D00] text-white font-bold" 
+                  selectedPresetId === preset.id
+                    ? "bg-[#FF4D00] border-[#FF4D00] text-white font-bold"
                     : "bg-black/40 border-white/10 text-white/70 hover:border-white/30"
                 }`}
               >
@@ -374,9 +215,9 @@ export default function App() {
       </section>
 
       {/* Interactive Workspace Studio */}
-      <section id="sandbox" className="py-20 px-6 md:px-12 max-w-6xl mx-auto w-full flex-1">
-        
-        {/* Workspace Title & Description */}
+      <section className="py-20 px-6 md:px-12 max-w-6xl mx-auto w-full flex-1">
+
+        {/* Workspace Title & Phase Switch */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-white/10 pb-8">
           <div>
             <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight">
@@ -386,15 +227,11 @@ export default function App() {
               Toggle between Phase 1 and Phase 2. Use the presets above to instantly populate high-quality mock data, or connect your API key to test custom ideas with live Gemini AI logic!
             </p>
           </div>
-          
-          {/* Phase Switch Tabs */}
           <div className="flex gap-px bg-white/10 p-1 border border-white/10 self-start md:self-auto">
             <button
               onClick={() => setActiveTab("guide")}
               className={`px-5 py-2.5 text-xs font-mono uppercase tracking-widest transition-all ${
-                activeTab === "guide" 
-                  ? "bg-[#FF4D00] text-white font-bold" 
-                  : "text-white/60 hover:text-white"
+                activeTab === "guide" ? "bg-[#FF4D00] text-white font-bold" : "text-white/60 hover:text-white"
               }`}
             >
               01. Creative Guide
@@ -402,9 +239,7 @@ export default function App() {
             <button
               onClick={() => setActiveTab("validate")}
               className={`px-5 py-2.5 text-xs font-mono uppercase tracking-widest transition-all ${
-                activeTab === "validate" 
-                  ? "bg-[#FF4D00] text-white font-bold" 
-                  : "text-white/60 hover:text-white"
+                activeTab === "validate" ? "bg-[#FF4D00] text-white font-bold" : "text-white/60 hover:text-white"
               }`}
             >
               02. Validation Agent
@@ -415,18 +250,14 @@ export default function App() {
         {/* Phase 1 Workspace: Creative Guide */}
         {activeTab === "guide" && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            {/* Input Form Column */}
             <div className="lg:col-span-5 space-y-6">
               <div className="bg-black border border-white/10 p-6 md:p-8 space-y-6 relative">
                 <div className="absolute top-0 right-6 transform -translate-y-1/2 bg-[#FF4D00] text-black font-mono text-[9px] uppercase tracking-widest px-2.5 py-0.5 font-bold">
                   Phase 01: Concept Strategy
                 </div>
-
                 <form onSubmit={handleGenerateGuide} className="space-y-5">
                   <div className="space-y-2">
-                    <label className="block text-[11px] font-mono uppercase tracking-widest text-white/40">
-                      Target Platform
-                    </label>
+                    <label className="block text-[11px] font-mono uppercase tracking-widest text-white/40">Target Platform</label>
                     <select
                       value={p1Platform}
                       onChange={(e) => setP1Platform(e.target.value)}
@@ -439,11 +270,8 @@ export default function App() {
                       <option value="LinkedIn Video">LinkedIn Video</option>
                     </select>
                   </div>
-
                   <div className="space-y-2">
-                    <label className="block text-[11px] font-mono uppercase tracking-widest text-white/40">
-                      Content Format
-                    </label>
+                    <label className="block text-[11px] font-mono uppercase tracking-widest text-white/40">Content Format</label>
                     <div className="grid grid-cols-2 gap-2">
                       {["Video/Reel", "Carousel", "Infographic", "Interactive Story"].map((fmt) => (
                         <button
@@ -451,8 +279,8 @@ export default function App() {
                           key={fmt}
                           onClick={() => setP1Type(fmt)}
                           className={`py-2 text-[10px] font-mono uppercase tracking-wider border transition-all ${
-                            p1Type === fmt 
-                              ? "bg-white/10 border-[#FF4D00] text-white" 
+                            p1Type === fmt
+                              ? "bg-white/10 border-[#FF4D00] text-white"
                               : "bg-black border-white/10 text-white/55 hover:border-white/20"
                           }`}
                         >
@@ -461,11 +289,8 @@ export default function App() {
                       ))}
                     </div>
                   </div>
-
                   <div className="space-y-2">
-                    <label className="block text-[11px] font-mono uppercase tracking-widest text-white/40">
-                      Describe Your Creative Idea
-                    </label>
+                    <label className="block text-[11px] font-mono uppercase tracking-widest text-white/40">Describe Your Creative Idea</label>
                     <textarea
                       rows={5}
                       value={p1Idea}
@@ -478,37 +303,25 @@ export default function App() {
                       <span>{p1Idea.length} chars</span>
                     </div>
                   </div>
-
                   <button
                     type="submit"
                     disabled={p1Loading || !p1Idea.trim()}
                     className="w-full bg-white text-black hover:bg-[#FF4D00] hover:text-white disabled:bg-white/10 disabled:text-white/30 disabled:border-transparent py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {p1Loading ? (
-                      <>
-                        <RefreshCw className="w-4 h-4 animate-spin" />
-                        Generating Creative Brief...
-                      </>
+                      <><RefreshCw className="w-4 h-4 animate-spin" /> Generating Creative Brief...</>
                     ) : (
-                      <>
-                        <Play className="w-4 h-4 fill-current" />
-                        Formulate Strategy Plan
-                      </>
+                      <><Play className="w-4 h-4 fill-current" /> Formulate Strategy Plan</>
                     )}
                   </button>
                 </form>
-
                 {p1Error && (
                   <div className="p-4 bg-red-950/40 border border-red-500/30 rounded-none flex items-start gap-3">
                     <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                     <div>
                       <h5 className="text-xs font-bold text-red-400 uppercase tracking-wider">API Authentication Error</h5>
-                      <p className="text-[11px] text-red-300/80 mt-1 leading-relaxed">
-                        {p1Error}
-                      </p>
-                      <p className="text-[10px] text-white/40 mt-2 font-mono">
-                        Note: You can still click the presets at the top to experience the full planned output!
-                      </p>
+                      <p className="text-[11px] text-red-300/80 mt-1 leading-relaxed">{p1Error}</p>
+                      <p className="text-[10px] text-white/40 mt-2 font-mono">Note: You can still click the presets at the top to experience the full planned output!</p>
                     </div>
                   </div>
                 )}
@@ -519,52 +332,34 @@ export default function App() {
             <div className="lg:col-span-7">
               {p1Result ? (
                 <div className="border border-white/10 bg-black p-6 md:p-8 space-y-8">
-                  {/* Result Header */}
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/10 pb-6">
                     <div>
-                      <span className="text-[10px] font-mono text-[#FF4D00] uppercase tracking-widest font-bold block">
-                        [ GENERATED CREATIVE PLAN ]
-                      </span>
-                      <h3 className="text-2xl font-black uppercase tracking-tight text-white mt-1">
-                        {p1Result.title}
-                      </h3>
+                      <span className="text-[10px] font-mono text-[#FF4D00] uppercase tracking-widest font-bold block">[ GENERATED CREATIVE PLAN ]</span>
+                      <h3 className="text-2xl font-black uppercase tracking-tight text-white mt-1">{p1Result.title}</h3>
                     </div>
                     <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-none font-mono text-[10px] uppercase text-white/70">
                       <Film className="w-3.5 h-3.5" /> {p1Type} / {p1Platform}
                     </div>
                   </div>
-
-                  {/* Core Concept Brief */}
                   <div className="space-y-3">
                     <h4 className="text-xs font-mono uppercase tracking-widest text-white/40 flex items-center gap-2">
                       <Zap className="w-3.5 h-3.5 text-[#FF4D00]" /> High-Level Concept Brief
                     </h4>
-                    <p className="text-sm text-white/80 leading-relaxed font-sans bg-white/[0.02] p-4 border-l-2 border-[#FF4D00]">
-                      {p1Result.concept}
-                    </p>
+                    <p className="text-sm text-white/80 leading-relaxed font-sans bg-white/[0.02] p-4 border-l-2 border-[#FF4D00]">{p1Result.concept}</p>
                   </div>
-
-                  {/* Target Audience Insight */}
                   <div className="space-y-3">
                     <h4 className="text-xs font-mono uppercase tracking-widest text-white/40 flex items-center gap-2">
                       <BookOpen className="w-3.5 h-3.5 text-[#FF4D00]" /> Target Audience Profile & Emotional Trigger
                     </h4>
-                    <p className="text-xs text-white/70 leading-relaxed font-sans">
-                      {p1Result.targetAudience}
-                    </p>
+                    <p className="text-xs text-white/70 leading-relaxed font-sans">{p1Result.targetAudience}</p>
                   </div>
-
-                  {/* Aesthetics Matrix Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-y border-white/10 py-6">
                     <div className="space-y-2">
                       <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest block">Color Palette</span>
-                      <div className="flex gap-2 items-center">
+                      <div className="flex gap-2 items-center flex-wrap">
                         {p1Result.aesthetic?.colorPalette?.map((color, idx) => (
                           <div key={idx} className="flex items-center gap-1 bg-white/5 px-2 py-1 border border-white/10">
-                            <span 
-                              className="w-3 h-3 block border border-white/20" 
-                              style={{ backgroundColor: color }}
-                            />
+                            <span className="w-3 h-3 block border border-white/20" style={{ backgroundColor: color }} />
                             <span className="text-[9px] font-mono text-white/60">{color}</span>
                           </div>
                         ))}
@@ -579,49 +374,31 @@ export default function App() {
                       <span className="text-xs text-white/80 font-medium block">{p1Result.aesthetic?.lighting}</span>
                     </div>
                   </div>
-
-                  {/* High Retention Hooks */}
                   <div className="space-y-3">
-                    <h4 className="text-xs font-mono uppercase tracking-widest text-white/40">
-                      Algorithmic Hooks (First 3 Seconds)
-                    </h4>
+                    <h4 className="text-xs font-mono uppercase tracking-widest text-white/40">Algorithmic Hooks (First 3 Seconds)</h4>
                     <div className="space-y-2.5">
                       {p1Result.hooks?.map((hook, i) => (
                         <div key={i} className="bg-white/5 border border-white/10 p-3 flex gap-3 items-start">
-                          <span className="text-[10px] font-mono text-white/30 bg-white/10 px-1.5 py-0.5 mt-0.5">
-                            Hook 0{i + 1}
-                          </span>
-                          <p className="text-xs text-white/80 font-sans italic leading-relaxed">
-                            {hook}
-                          </p>
+                          <span className="text-[10px] font-mono text-white/30 bg-white/10 px-1.5 py-0.5 mt-0.5">Hook 0{i + 1}</span>
+                          <p className="text-xs text-white/80 font-sans italic leading-relaxed">{hook}</p>
                         </div>
                       ))}
                     </div>
                   </div>
-
-                  {/* Director's Storyboard sequence */}
                   <div className="space-y-4">
-                    <h4 className="text-xs font-mono uppercase tracking-widest text-white/40">
-                      Director's Storyboard & Asset Sequence
-                    </h4>
+                    <h4 className="text-xs font-mono uppercase tracking-widest text-white/40">Director's Storyboard & Asset Sequence</h4>
                     <div className="space-y-3">
                       {p1Result.storyboard?.map((shot) => (
-                        <div 
-                          key={shot.shot} 
+                        <div
+                          key={shot.shot}
                           className="group border border-white/10 bg-white/[0.01] hover:bg-white/[0.03] p-4 transition-all flex flex-col sm:flex-row gap-4 justify-between"
                         >
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
-                              <span className="text-[10px] font-mono text-black bg-[#FF4D00] px-1.5 py-0.5 font-bold">
-                                SHOT 0{shot.shot}
-                              </span>
-                              <span className="text-[10px] font-mono text-white/40">
-                                Angle: <span className="text-white font-sans">{shot.angle}</span>
-                              </span>
+                              <span className="text-[10px] font-mono text-black bg-[#FF4D00] px-1.5 py-0.5 font-bold">SHOT 0{shot.shot}</span>
+                              <span className="text-[10px] font-mono text-white/40">Angle: <span className="text-white font-sans">{shot.angle}</span></span>
                             </div>
-                            <p className="text-xs text-white/80 leading-relaxed pt-1">
-                              {shot.description}
-                            </p>
+                            <p className="text-xs text-white/80 leading-relaxed pt-1">{shot.description}</p>
                           </div>
                           <div className="sm:text-right shrink-0">
                             <span className="text-[10px] font-mono text-white/30 block uppercase tracking-wider">Duration</span>
@@ -631,8 +408,6 @@ export default function App() {
                       ))}
                     </div>
                   </div>
-
-                  {/* Audio Design Guidance */}
                   <div className="bg-[#111] p-4 border border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                       <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest block">Music Genre</span>
@@ -647,40 +422,29 @@ export default function App() {
                       <span className="text-xs font-bold text-white block mt-1">{p1Result.music?.vibe}</span>
                     </div>
                   </div>
-
-                  {/* Platform-Specific Distribution Advice */}
                   <div className="space-y-3 pt-2">
-                    <h4 className="text-xs font-mono uppercase tracking-widest text-white/40">
-                      Platform Algorithmic Advice
-                    </h4>
+                    <h4 className="text-xs font-mono uppercase tracking-widest text-white/40">Platform Algorithmic Advice</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {p1Result.platformTips?.instagram && (
                         <div className="p-3.5 bg-black border border-white/10 text-xs space-y-1.5">
-                          <span className="font-mono text-[9px] text-[#FF4D00] uppercase tracking-wider block font-bold">
-                            Instagram / TikTok Native
-                          </span>
+                          <span className="font-mono text-[9px] text-[#FF4D00] uppercase tracking-wider block font-bold">Instagram / TikTok Native</span>
                           <p className="text-white/70 leading-relaxed font-sans">{p1Result.platformTips.instagram}</p>
                         </div>
                       )}
                       {p1Result.platformTips?.tiktok && (
                         <div className="p-3.5 bg-black border border-white/10 text-xs space-y-1.5">
-                          <span className="font-mono text-[9px] text-[#FF4D00] uppercase tracking-wider block font-bold">
-                            Pacing & Discovery Action
-                          </span>
+                          <span className="font-mono text-[9px] text-[#FF4D00] uppercase tracking-wider block font-bold">Pacing & Discovery Action</span>
                           <p className="text-white/70 leading-relaxed font-sans">{p1Result.platformTips.tiktok}</p>
                         </div>
                       )}
                     </div>
                   </div>
-
                 </div>
               ) : (
                 <div className="border border-dashed border-white/10 h-full flex flex-col justify-center items-center p-12 text-center bg-black/20">
                   <Film className="w-10 h-10 text-white/20 mb-4 animate-pulse" />
                   <p className="text-sm text-white/60 font-mono uppercase tracking-wider">No concept brief loaded</p>
-                  <p className="text-xs text-white/40 mt-1 max-w-xs">
-                    Input a draft description to formulate a plan or click an aesthetic preset.
-                  </p>
+                  <p className="text-xs text-white/40 mt-1 max-w-xs">Input a draft description to formulate a plan or click an aesthetic preset.</p>
                 </div>
               )}
             </div>
@@ -690,27 +454,19 @@ export default function App() {
         {/* Phase 2 Workspace: Validation Agent */}
         {activeTab === "validate" && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            {/* Validation Upload Column */}
             <div className="lg:col-span-5 space-y-6">
               <div className="bg-black border border-white/10 p-6 md:p-8 space-y-6 relative">
                 <div className="absolute top-0 right-6 transform -translate-y-1/2 bg-[#FF4D00] text-black font-mono text-[9px] uppercase tracking-widest px-2.5 py-0.5 font-bold">
                   Phase 02: Critique & Publishing
                 </div>
-
                 <form onSubmit={handleValidateDraft} className="space-y-6">
-                  {/* Frame / Screenshot Upload Widget */}
                   <div className="space-y-2">
                     <label className="block text-[11px] font-mono uppercase tracking-widest text-white/40">
                       Upload Draft Frame / Screenshot (Optional)
                     </label>
-                    
                     {p2Image ? (
                       <div className="relative border border-white/20 bg-black/60 p-2 group">
-                        <img 
-                          src={p2Image} 
-                          alt="Draft preview" 
-                          className="w-full h-48 object-cover border border-white/10"
-                        />
+                        <img src={p2Image} alt="Draft preview" className="w-full h-48 object-cover border border-white/10" />
                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                           <button
                             type="button"
@@ -729,30 +485,16 @@ export default function App() {
                         onDrop={handleDrop}
                         onClick={() => fileInputRef.current?.click()}
                         className={`border-2 border-dashed rounded-none p-6 text-center cursor-pointer transition-all duration-200 ${
-                          dragActive 
-                            ? "border-[#FF4D00] bg-white/[0.02]" 
-                            : "border-white/10 hover:border-white/20 bg-black"
+                          dragActive ? "border-[#FF4D00] bg-white/[0.02]" : "border-white/10 hover:border-white/20 bg-black"
                         }`}
                       >
-                        <input
-                          ref={fileInputRef}
-                          type="file"
-                          accept="image/*"
-                          onChange={handleFileChange}
-                          className="hidden"
-                        />
+                        <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
                         <Upload className="w-8 h-8 text-white/30 mx-auto mb-2.5" />
-                        <span className="text-xs text-white/80 block font-mono uppercase tracking-wide">
-                          Drag & Drop or Click to Upload
-                        </span>
-                        <span className="text-[10px] text-white/40 block mt-1">
-                          PNG, JPG, or WEBP. Max size 15MB.
-                        </span>
+                        <span className="text-xs text-white/80 block font-mono uppercase tracking-wide">Drag & Drop or Click to Upload</span>
+                        <span className="text-[10px] text-white/40 block mt-1">PNG, JPG, or WEBP. Max size 15MB.</span>
                       </div>
                     )}
                   </div>
-
-                  {/* Text Draft / Story Outline input */}
                   <div className="space-y-2">
                     <label className="block text-[11px] font-mono uppercase tracking-widest text-white/40">
                       Describe your draft or current progress
@@ -765,63 +507,44 @@ export default function App() {
                       className="w-full bg-[#111] border border-white/10 focus:border-[#FF4D00] text-sm px-4 py-3 rounded-none outline-none text-white font-sans placeholder-white/30 resize-none leading-relaxed"
                     />
                   </div>
-
                   <button
                     type="submit"
                     disabled={p2Loading || (!p2Description.trim() && !p2Image)}
                     className="w-full bg-white text-black hover:bg-[#FF4D00] hover:text-white disabled:bg-white/10 disabled:text-white/30 disabled:border-transparent py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {p2Loading ? (
-                      <>
-                        <RefreshCw className="w-4 h-4 animate-spin" />
-                        Critiquing Asset Draft...
-                      </>
+                      <><RefreshCw className="w-4 h-4 animate-spin" /> Critiquing Asset Draft...</>
                     ) : (
-                      <>
-                        <Eye className="w-4 h-4" />
-                        Submit for Director Review
-                      </>
+                      <><Eye className="w-4 h-4" /> Submit for Director Review</>
                     )}
                   </button>
                 </form>
-
                 {p2Error && (
                   <div className="p-4 bg-red-950/40 border border-red-500/30 rounded-none flex items-start gap-3">
                     <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                     <div>
                       <h5 className="text-xs font-bold text-red-400 uppercase tracking-wider">Validation Error</h5>
-                      <p className="text-[11px] text-red-300/80 mt-1 leading-relaxed">
-                        {p2Error}
-                      </p>
-                      <p className="text-[10px] text-white/40 mt-2 font-mono">
-                        Note: You can still click the presets at the top to experience pre-configured review evaluations!
-                      </p>
+                      <p className="text-[11px] text-red-300/80 mt-1 leading-relaxed">{p2Error}</p>
+                      <p className="text-[10px] text-white/40 mt-2 font-mono">Note: You can still click the presets at the top to experience pre-configured review evaluations!</p>
                     </div>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Critique Output brief columns */}
+            {/* Critique Output */}
             <div className="lg:col-span-7">
               {p2Result ? (
                 <div className="border border-white/10 bg-black p-6 md:p-8 space-y-8">
-                  {/* Results header block */}
                   <div className="flex justify-between items-center border-b border-white/10 pb-6">
                     <div>
-                      <span className="text-[10px] font-mono text-[#FF4D00] uppercase tracking-widest font-bold block">
-                        [ CRITIQUE EVALUATION & DIAGNOSTICS ]
-                      </span>
-                      <h3 className="text-2xl font-black uppercase tracking-tight mt-1">
-                        Director's Verdict
-                      </h3>
+                      <span className="text-[10px] font-mono text-[#FF4D00] uppercase tracking-widest font-bold block">[ CRITIQUE EVALUATION & DIAGNOSTICS ]</span>
+                      <h3 className="text-2xl font-black uppercase tracking-tight mt-1">Director's Verdict</h3>
                     </div>
                     <span className="font-mono text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800/40 px-3 py-1.5 uppercase font-medium">
                       Analysis Complete
                     </span>
                   </div>
-
-                  {/* Scoreboard Cards */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     <div className="bg-white/5 border border-white/10 p-4 text-center">
                       <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest block">Composition</span>
@@ -840,8 +563,6 @@ export default function App() {
                       <span className="text-3xl font-black text-white block mt-1">{p2Result.scores?.pacing || "B"}</span>
                     </div>
                   </div>
-
-                  {/* Feedback Narrative pointers */}
                   <div className="space-y-6">
                     <div className="space-y-2">
                       <h4 className="text-xs font-mono uppercase tracking-widest text-[#FF4D00] flex items-center gap-2">
@@ -851,7 +572,6 @@ export default function App() {
                         {p2Result.feedback?.whatIsWorking}
                       </p>
                     </div>
-
                     <div className="space-y-2">
                       <h4 className="text-xs font-mono uppercase tracking-widest text-white/40 flex items-center gap-2">
                         <Sliders className="w-4 h-4 text-[#FF4D00]" /> High-Priority Revisions Needed
@@ -860,7 +580,6 @@ export default function App() {
                         {p2Result.feedback?.areasToImprove}
                       </p>
                     </div>
-
                     <div className="space-y-2">
                       <h4 className="text-xs font-mono uppercase tracking-widest text-white/40 flex items-center gap-2">
                         <MessageSquare className="w-4 h-4 text-[#FF4D00]" /> Director's Editorial Note
@@ -870,15 +589,12 @@ export default function App() {
                       </p>
                     </div>
                   </div>
-
                 </div>
               ) : (
                 <div className="border border-dashed border-white/10 h-full flex flex-col justify-center items-center p-12 text-center bg-black/20">
                   <Eye className="w-10 h-10 text-white/20 mb-4 animate-pulse" />
                   <p className="text-sm text-white/60 font-mono uppercase tracking-wider">No critique loaded</p>
-                  <p className="text-xs text-white/40 mt-1 max-w-xs">
-                    Please upload an image/screenshot or type a draft progress note on the left.
-                  </p>
+                  <p className="text-xs text-white/40 mt-1 max-w-xs">Upload an image/screenshot or type a draft progress note on the left.</p>
                 </div>
               )}
             </div>
@@ -886,55 +602,12 @@ export default function App() {
         )}
       </section>
 
-      {/* Human-Centered AI Ethos & Philosophy */}
-      <section id="philosophy" className="border-t border-white/10 bg-black/60 py-24 px-6 md:px-12">
-        <div className="max-w-6xl mx-auto space-y-16">
-          <div className="text-center space-y-4 max-w-2xl mx-auto">
-            <span className="text-xs font-mono text-[#FF4D00] uppercase tracking-[0.3em] font-bold block">
-              [ THE MANIFESTO ]
-            </span>
-            <h2 className="text-4xl font-black uppercase tracking-tight">
-              Human-Centered Creative AI
-            </h2>
-            <p className="text-sm text-white/60 leading-relaxed font-light">
-              We believe artificial intelligence should support and elevate human ingenuity, not override it. Here is how our workflow aligns with creators instead of competing with them:
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="border border-white/10 p-8 space-y-4 hover:bg-white/5 transition-all">
-              <span className="text-[10px] font-mono text-[#FF4D00] uppercase tracking-wider block">[ CREATIVE SOVEREIGNTY ]</span>
-              <h3 className="text-lg font-bold uppercase tracking-tight text-white">We Never Generate Your Media</h3>
-              <p className="text-xs text-white/60 leading-relaxed">
-                Many modern models directly output synthesized pictures, computer generated sound, or clone-voice videos. This leaves nothing for the creator but button clicks. We build precise step blueprints so you can shoot the authentic frames yourself.
-              </p>
-            </div>
-            
-            <div className="border border-white/10 p-8 space-y-4 hover:bg-white/5 transition-all">
-              <span className="text-[10px] font-mono text-[#FF4D00] uppercase tracking-wider block">[ METICULOUS ANALYSIS ]</span>
-              <h3 className="text-lg font-bold uppercase tracking-tight text-white">Honest Creative Critique</h3>
-              <p className="text-xs text-white/60 leading-relaxed">
-                A good creative director does not just praise or stay silent; they highlight compositional errors, poor lighting levels, and flat pacing beats. Our validation agents tell you how to elevate your shots before your audience sees them.
-              </p>
-            </div>
-
-            <div className="border border-white/10 p-8 space-y-4 hover:bg-white/5 transition-all">
-              <span className="text-[10px] font-mono text-[#FF4D00] uppercase tracking-wider block">[ STRATEGIC ADVANTAGE ]</span>
-              <h3 className="text-lg font-bold uppercase tracking-tight text-white">Algorithmic Matchmaking</h3>
-              <p className="text-xs text-white/60 leading-relaxed">
-                Making beautiful things is only half the battle. Our system analyzes trending caption curves, platform limits, and viewer routine habits to make sure your work reaches the perfect people at the perfect hour.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer Bar */}
+      {/* Footer */}
       <footer className="px-6 md:px-12 py-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-start md:items-end bg-black gap-6">
         <div className="max-w-md">
           <p className="text-xs font-black uppercase tracking-widest text-[#FF4D00] mb-2">AI Creative Director</p>
           <p className="text-[11px] leading-relaxed text-white/40 uppercase tracking-wider">
-            AI should amplify human creativity, not replace it. Our assistant provides comprehensive guidance and structural validation, leaving the final creative call exactly where it belongs: with you.
+            AI should amplify human creativity, not replace it.
           </p>
         </div>
         <div className="flex gap-8 items-center shrink-0 w-full md:w-auto justify-between md:justify-end">
@@ -944,12 +617,7 @@ export default function App() {
               <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span> Ready to Assist
             </span>
           </div>
-          <button 
-            onClick={() => scrollToSection("sandbox")}
-            className="w-12 h-12 bg-white hover:bg-[#FF4D00] text-black hover:text-white flex items-center justify-center font-black text-xl transition-all hover:scale-105 cursor-pointer"
-          >
-            &rarr;
-          </button>
+          <ArrowRight className="w-5 h-5 text-white/20" />
         </div>
       </footer>
     </div>
