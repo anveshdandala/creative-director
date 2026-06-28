@@ -66,3 +66,12 @@ content on their behalf.
 - **Demo video (≤3 min, public):**
 - **Project submission page:**
 - **GitHub repo:** (this repo — must be public)
+
+# 6. Exectution
+
+To run ai services
+- **.\venv\Scripts\Activate.ps1 **
+- **uvicorn main:app --reload**
+
+for both fe and be
+- **npm run dev **
