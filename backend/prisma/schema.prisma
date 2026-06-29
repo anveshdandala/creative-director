@@ -1,0 +1,23 @@
+// Prisma schema for AI Content Director backend
+// Provider: Prisma Postgres (provisioned via Prisma Compute)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Tracks every AI generation tied to a Clerk user ID
+model Generation {
+  id        String   @id @default(cuid())
+  userId    String                        // Clerk user ID (e.g. "user_abc123")
+  type      String                        // "guide" | "validate"
+  input     String                        // JSON-encoded request payload
+  output    String                        // JSON-encoded AI response
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
