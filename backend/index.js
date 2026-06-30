@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { clerkMiddleware } from "@clerk/express";
-import apiRouter from "./src/routes/index.js";
+import routes from "./src/routes/index.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,7 +15,7 @@ app.get("/", (_req, res) => {
   res.json({ message: "AI Content Director backend running." });
 });
 
-app.use("/api", apiRouter);
+app.use("/api", routes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
