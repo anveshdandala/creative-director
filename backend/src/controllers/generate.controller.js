@@ -2,18 +2,13 @@ import { prisma } from "../config/prisma.js";
 
 const AI_SERVICE_URL = process.env.AI_SERVICE_URL || "http://localhost:8000";
 
-/**
- * POST /api/guide
- * Requires a valid Clerk session (enforced by requireAuth middleware).
- * Forwards the request to the AI service and logs the generation to the DB.
- */
 export async function generateGuide(req, res) {
   const { idea, contentType, platform } = req.body;
   if (!idea) {
     return res.status(400).json({ error: true, message: "idea is required" });
   }
 
-  const userId = req.auth.userId;
+  const userId = req.user.id;
 
   const aiRes = await fetch(`${AI_SERVICE_URL}/guide`, {
     method: "POST",

@@ -19,8 +19,12 @@ import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 import { PRESET_EXAMPLES, PresetExample } from "../data";
 import { CreativePlan, DirectorReview } from "../types";
+import { useAppAuth } from "@/hooks/useAppAuth";
+
 
 export default function Studio() {
+  const { isReady, apiHeaders } = useAppAuth();
+
   // Phase Tab state
   const [activeTab, setActiveTab] = useState<"guide" | "validate">("guide");
 
@@ -72,7 +76,7 @@ export default function Studio() {
     try {
       const response = await fetch("/api/guide", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: apiHeaders,
         body: JSON.stringify({ idea: p1Idea, contentType: p1Type, platform: p1Platform }),
       });
       const data = await response.json();
@@ -97,7 +101,7 @@ export default function Studio() {
     try {
       const response = await fetch("/api/validate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: apiHeaders,
         body: JSON.stringify({
           draftDescription: p2Description,
           imageBase64: p2Image || undefined,

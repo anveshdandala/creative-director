@@ -4,7 +4,7 @@ const AI_SERVICE_URL = process.env.AI_SERVICE_URL || "http://localhost:8000";
 
 /**
  * POST /api/validate
- * Requires a valid Clerk session (enforced by requireAuth middleware).
+ * Requires our own JWT (enforced by authenticate middleware).
  * Forwards the request to the AI service and logs the validation to the DB.
  */
 export async function validateDraft(req, res) {
@@ -15,7 +15,7 @@ export async function validateDraft(req, res) {
       .json({ error: true, message: "draftDescription or imageBase64 is required" });
   }
 
-  const userId = req.auth.userId;
+  const userId = req.user.id;
 
   const aiRes = await fetch(`${AI_SERVICE_URL}/validate`, {
     method: "POST",

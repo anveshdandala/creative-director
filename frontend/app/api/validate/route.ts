@@ -1,12 +1,10 @@
-import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
+import { getOwnToken } from "@/lib/auth";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
 
 export async function POST(req: NextRequest) {
-  const { getToken } = await auth();
-  const token = await getToken();
-
+  const token = await getOwnToken(req);
   if (!token) {
     return NextResponse.json({ error: true, message: "Unauthorized" }, { status: 401 });
   }

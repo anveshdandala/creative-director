@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import {
   Sparkles,
   Film,
@@ -26,20 +26,11 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useAuth, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
 import { PRESET_EXAMPLES, PresetExample } from "./data";
 import { CreativePlan, DirectorReview } from "./types";
 
 export default function App() {
   const { isSignedIn, isLoaded } = useAuth();
-  const router = useRouter();
-
-  // Auto-redirect to /home if the user is already signed in
-  useEffect(() => {
-    if (isLoaded && isSignedIn) {
-      router.replace("/home");
-    }
-  }, [isLoaded, isSignedIn, router]);
 
   // Phase Tab state
   const [activeTab, setActiveTab] = useState<"guide" | "validate">("guide");

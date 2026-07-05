@@ -9,14 +9,29 @@ datasource db {
   provider = "postgresql"
 }
 
-/// Tracks every AI generation tied to a Clerk user ID
+/// Internal user record. Created on first sign-in via POST /api/auth/sync.
+/// clerkId is stored only here — nowhere else in the codebase uses it.
+model User {
+  id        String       @id @default(cuid())   // Our own internal user id
+  clerkId   String       @unique                // Used only during sync; never exposed further
+  email     String       @unique
+  name      String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  generations Generation[]
+}
+
+/// Tracks every AI generation tied to an internal User.
 model Generation {
   id        String   @id @default(cuid())
-  userId    String                        // Clerk user ID (e.g. "user_abc123")
-  type      String                        // "guide" | "validate"
-  input     String                        // JSON-encoded request payload
-  output    String                        // JSON-encoded AI response
+  userId    String                              // Internal User.id (NOT Clerk id)
+  type      String                              // "guide" | "validate"
+  input     String                              // JSON-encoded request payload
+  output    String                              // JSON-encoded AI response
   createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }

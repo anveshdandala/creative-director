@@ -1,11 +1,14 @@
 import { Router } from "express";
-import { requireAuth } from "@clerk/express";
+
+import {authenticate} from "../middlewares/auth.middleware.js"
+import { syncUser } from "../controllers/auth.controller.js";
 import { generateGuide } from "../controllers/generate.controller.js";
 import { validateDraft } from "../controllers/validate.controller.js";
 
 const router = Router();
 
-router.post("/guide", requireAuth(), generateGuide);
-router.post("/validate", requireAuth(), validateDraft);
+router.post("/auth/sync", syncUser);
+router.post("/guide", authenticate, generateGuide);
+router.post("/validate", authenticate, validateDraft);
 
 export default router;

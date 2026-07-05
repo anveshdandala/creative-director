@@ -1,0 +1,339 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Authentication Flow</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1f2328;
+    background: #ffffff;
+    padding: 32px 16px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+  .subtitle { color: #57606a; margin-bottom: 32px; font-size: 13px; }
+
+  /* Phase blocks */
+  .phase { margin-bottom: 28px; }
+  .phase-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #57606a;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  /* Step rows */
+  .step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #3b82d4;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+  .step-num.green { background: #16a34a; }
+  .step-num.purple { background: #7c5cd8; }
+  .step-num.gray { background: #57606a; }
+
+  .step-body { flex: 1; }
+  .step-title { font-weight: 600; margin-bottom: 2px; }
+  .step-desc { color: #57606a; font-size: 13px; }
+
+  /* Code pill */
+  code {
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 12px;
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: #1f2328;
+  }
+
+  /* Flow arrow */
+  .arrow {
+    text-align: center;
+    color: #57606a;
+    font-size: 18px;
+    margin: -4px 0 8px 38px;
+    line-height: 1;
+  }
+
+  /* Actor badges */
+  .actor {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 10px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .actor.browser { background: #dbeafe; color: #1d4ed8; }
+  .actor.nextjs  { background: #fef9c3; color: #92400e; }
+  .actor.backend { background: #dcfce7; color: #15803d; }
+  .actor.clerk   { background: #ede9fe; color: #6d28d9; }
+  .actor.db      { background: #fee2e2; color: #b91c1c; }
+
+  /* Key/token display */
+  .token-box {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-top: 6px;
+    font-size: 13px;
+  }
+  .token-box .label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #57606a;
+    margin-bottom: 4px;
+  }
+  .token-row { display: flex; gap: 8px; margin-bottom: 3px; align-items: baseline; }
+  .token-key { font-weight: 600; min-width: 140px; }
+  .token-val { color: #57606a; }
+
+  /* Rule box */
+  .rule-box {
+    background: #f7f8fa;
+    border-left: 3px solid #3b82d4;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #57606a;
+  }
+  .rule-box strong { color: #1f2328; }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 2px dashed #e5e7eb;
+    margin: 24px 0;
+  }
+
+  /* Files table */
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+  th { text-align: left; font-weight: 600; padding: 6px 10px; background: #f7f8fa; border-bottom: 1px solid #e5e7eb; }
+  td { padding: 6px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+  td:first-child { font-family: "SFMono-Regular", Consolas, monospace; font-size: 12px; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+
+  footer {
+    margin-top: 48px;
+    padding-top: 12px;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 12px;
+    color: #57606a;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Authentication Flow</h1>
+  <p class="subtitle">AI Content Director — Clerk sign-in + own JWT handoff</p>
+
+  
+  <div class="phase">
+    <div class="phase-label">Phase 1 — Sign-in (happens once per session)</div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title"><span class="actor browser">Browser</span> User signs in via Clerk UI</div>
+        <div class="step-desc">Clerk handles the actual credential check (email/password, Google, GitHub, etc). Your app never sees a password.</div>
+      </div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title"><span class="actor clerk">Clerk</span> Issues a short-lived session JWT</div>
+        <div class="step-desc">Clerk gives the browser a session token (~60s expiry). It contains only the Clerk user ID (<code>sub</code>) — <strong>not</strong> email, not name.</div>
+      </div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title"><span class="actor browser">Browser</span> <code>useAppAuth</code> hook calls <code>syncUser()</code></div>
+        <div class="step-desc">The <code>useAppAuth</code> hook detects sign-in, gets the Clerk token via <code>getToken()</code>, and immediately POSTs it to the backend.</div>
+        <div class="token-box">
+          <div class="label">POST /api/auth/sync</div>
+          <div class="token-row"><span class="token-key">Authorization:</span><span class="token-val">Bearer &lt;clerk_session_token&gt;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <div class="step">
+      <div class="step-num green">4</div>
+      <div class="step-body">
+        <div class="step-title"><span class="actor backend">Backend</span> Verifies Clerk token + fetches real user data</div>
+        <div class="step-desc"><code>verifyToken()</code> checks the Clerk JWT signature using <code>CLERK_SECRET_KEY</code>. Then calls <code>clerk.users.getUser(clerkId)</code> to get the real email and name (not in the token by default).</div>
+      </div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <div class="step">
+      <div class="step-num green">5</div>
+      <div class="step-body">
+        <div class="step-title"><span class="actor db">Prisma Postgres</span> Upserts user row</div>
+        <div class="step-desc">Creates the <code>User</code> record if first sign-in, or updates email/name if returning. The <code>clerkId</code> is stored once here and never used again downstream.</div>
+      </div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <div class="step">
+      <div class="step-num green">6</div>
+      <div class="step-body">
+        <div class="step-title"><span class="actor backend">Backend</span> Issues <strong>our own JWT</strong></div>
+        <div class="step-desc">Signs a new JWT with <code>JWT_SECRET</code>. Payload is just <code>{ sub: user.id }</code> — our internal Postgres ID, not the Clerk ID.</div>
+        <div class="token-box">
+          <div class="label">Response</div>
+          <div class="token-row"><span class="token-key">token:</span><span class="token-val">&lt;our_jwt&gt; (expires in 7d)</span></div>
+          <div class="token-row"><span class="token-key">user:</span><span class="token-val">{ id, email, name, createdAt }</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <div class="step-title"><span class="actor browser">Browser</span> Stores our JWT in <code>localStorage</code></div>
+        <div class="step-desc"><code>storeToken(token)</code> writes it under the key <code>app_token</code>. The Clerk token is discarded — Clerk is <strong>never used again</strong> for API calls.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  
+  <div class="phase">
+    <div class="phase-label">Phase 2 — Every protected API call (guide, validate, etc.)</div>
+
+    <div class="step">
+      <div class="step-num purple">8</div>
+      <div class="step-body">
+        <div class="step-title"><span class="actor browser">Browser</span> Attaches our JWT to every fetch</div>
+        <div class="step-desc"><code>useAppAuth</code> exposes <code>apiHeaders</code> — a pre-built headers object you spread into every fetch call.</div>
+        <div class="token-box">
+          <div class="label">e.g. POST /api/guide</div>
+          <div class="token-row"><span class="token-key">Authorization:</span><span class="token-val">Bearer &lt;our_jwt&gt;</span></div>
+          <div class="token-row"><span class="token-key">Content-Type:</span><span class="token-val">application/json</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <div class="step">
+      <div class="step-num purple">9</div>
+      <div class="step-body">
+        <div class="step-title"><span class="actor nextjs">Next.js Route Handler</span> Forwards token to backend</div>
+        <div class="step-desc"><code>getOwnToken(req)</code> reads the <code>Authorization</code> header and passes it straight through to the Express backend. No Clerk involved.</div>
+      </div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <div class="step">
+      <div class="step-num purple">10</div>
+      <div class="step-body">
+        <div class="step-title"><span class="actor backend">Backend</span> <code>authenticate</code> middleware verifies our JWT</div>
+        <div class="step-desc">Calls <code>jwt.verify(token, JWT_SECRET)</code>. Looks up <code>payload.sub</code> in Postgres. Attaches <code>req.user = { id, email, name }</code> and calls <code>next()</code>.</div>
+      </div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <div class="step">
+      <div class="step-num purple">11</div>
+      <div class="step-body">
+        <div class="step-title"><span class="actor backend">Backend</span> Controller runs with <code>req.user</code> populated</div>
+        <div class="step-desc"><code>generateGuide</code> / <code>validateDraft</code> read <code>req.user.id</code> to associate the AI generation with the correct user row in Postgres.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  
+  <div class="phase">
+    <div class="phase-label">Phase 3 — Return visit (already has a token)</div>
+    <div class="step">
+      <div class="step-num gray">12</div>
+      <div class="step-body">
+        <div class="step-title"><span class="actor browser">Browser</span> Skips sync entirely</div>
+        <div class="step-desc"><code>useAppAuth</code> checks <code>localStorage</code> on load. If <code>app_token</code> already exists, sync is skipped and the stored JWT is used immediately. Sync only runs again after sign-out clears it.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  
+  <div class="phase">
+    <div class="phase-label">Key design rules</div>
+    <div class="rule-box">
+      <strong>Clerk is a login UI, not an auth layer.</strong> It handles credential verification and issues a short-lived token. The moment our backend verifies that token once, Clerk is done. Every subsequent request uses our own JWT — Clerk's SDK is never called again per request.
+    </div>
+    <div class="rule-box" style="margin-top:8px;border-color:#16a34a">
+      <strong>The JWT payload is minimal.</strong> It contains only <code>{ sub: user.id }</code> — our internal Postgres CUID. The Clerk ID, email, and name are never in the token. They are loaded fresh from the DB on every request by the <code>authenticate</code> middleware.
+    </div>
+    <div class="rule-box" style="margin-top:8px;border-color:#7c5cd8">
+      <strong>No session storage server-side.</strong> The backend is stateless — it verifies the JWT signature + DB lookup on every call. No Redis, no session table.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  
+  <div class="phase">
+    <div class="phase-label">Where each piece lives</div>
+    <table>
+      <thead>
+        <tr><th>File</th><th>Role</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>frontend/hooks/useAppAuth.ts</td><td>Watches Clerk state, triggers sync, exposes <code>token</code> + <code>apiHeaders</code></td></tr>
+        <tr><td>frontend/lib/auth.ts</td><td><code>syncUser()</code>, <code>storeToken()</code>, <code>getStoredToken()</code>, <code>getOwnToken()</code></td></tr>
+        <tr><td>frontend/app/api/guide/route.ts</td><td>Next.js proxy — reads our JWT from header, forwards to backend</td></tr>
+        <tr><td>frontend/app/api/validate/route.ts</td><td>Same as above for validate endpoint</td></tr>
+        <tr><td>backend/src/controllers/auth.controller.js</td><td>POST /api/auth/sync — verifies Clerk token, upserts user, issues our JWT</td></tr>
+        <tr><td>backend/src/middlewares/auth.middleware.js</td><td>Verifies our JWT on every protected route, populates <code>req.user</code></td></tr>
+        <tr><td>backend/src/routes/index.js</td><td>Wires <code>/auth/sync</code> (open) vs <code>/guide</code>, <code>/validate</code> (authenticate middleware)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>Made with IBM Bob</footer>
+</div>
+</body>
+</html>
