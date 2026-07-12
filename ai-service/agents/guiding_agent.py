@@ -12,8 +12,8 @@ To switch to a different model:
 """
 
 import json
-from agents.base import BaseAgent
-from agents.granite import GraniteAgent
+from agents.base import parse_json_response
+from agents.llm_client import get_llm_agent
 
 
 def _build_prompt(idea: str, content_type: str, platform: str) -> str:
@@ -45,12 +45,12 @@ class GuidingAgent:
     Orchestrates the content-guide generation flow.
 
     Args:
-        model: Any BaseAgent subclass. Defaults to GraniteAgent.
+        model: Any BaseAgent subclass. Defaults to configured LLM client.
                Swap this to use a different LLM without changing anything else.
     """
 
-    def __init__(self, model: BaseAgent | None = None):
-        self._model = model or GraniteAgent()
+    def __init__(self, model=None):
+        self._model = model or get_llm_agent()
 
     def run(self, idea: str, content_type: str = "", platform: str = "") -> dict:
         """
@@ -60,18 +60,10 @@ class GuidingAgent:
         Raises ValueError if the model returns malformed JSON.
         """
         prompt = _build_prompt(idea, content_type, platform)
-        result = self._model.run({"prompt": prompt})
-        raw_text: str = result["text"].strip()
-
-        # Strip accidental markdown fences if the model adds them
-        if raw_text.startswith("```"):
-            raw_text = raw_text.split("```")[1]
-            if raw_text.startswith("json"):
-                raw_text = raw_text[4:]
-            raw_text = raw_text.strip()
+        raw_text = self._model.generate(prompt)
 
         try:
-            guide = json.loads(raw_text)
+            guide = parse_json_response(raw_text)
         except json.JSONDecodeError as exc:
             raise ValueError(
                 f"Model returned non-JSON output: {raw_text[:200]}"
@@ -79,5 +71,7 @@ class GuidingAgent:
 
         return {
             "guide": guide,
-            "model": result.get("model"),
+            "model": self._model.model_name,
+            "source": self._model.model_source
         }
+

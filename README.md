@@ -72,6 +72,8 @@ content on their behalf.
 To run ai services
 - **.\venv\Scripts\Activate.ps1 **
 - **uvicorn main:app --reload**
+- python -m uvicorn main:app --reload
+
 
 for both fe and be
 - **npm run dev **

@@ -4,6 +4,8 @@ const AI_SERVICE_URL = process.env.AI_SERVICE_URL || "http://localhost:8000";
 
 export async function generateGuide(req, res) {
   const { idea, contentType, platform } = req.body;
+
+  console.log("reached generate")
   if (!idea) {
     return res.status(400).json({ error: true, message: "idea is required" });
   }
@@ -18,7 +20,6 @@ export async function generateGuide(req, res) {
 
   const data = await aiRes.json();
 
-  // Persist generation record so we can associate it with the Clerk user
   if (aiRes.ok) {
     await prisma.generation.create({
       data: {

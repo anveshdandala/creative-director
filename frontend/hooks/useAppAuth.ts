@@ -20,7 +20,7 @@
 
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { syncUser, getStoredToken, clearToken, AppUser } from "@/lib/auth";
 
@@ -76,13 +76,17 @@ export function useAppAuth(): AppAuthState {
 
   const isReady = isLoaded && synced;
 
+  const apiHeaders = useMemo(() => {
+    return token
+      ? { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
+      : { "Content-Type": "application/json" };
+  }, [token]);
+
   return {
     isReady,
     isSignedIn: !!isSignedIn,
     user,
     token,
-    apiHeaders: token
-      ? { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
-      : { "Content-Type": "application/json" },
+    apiHeaders,
   };
 }
