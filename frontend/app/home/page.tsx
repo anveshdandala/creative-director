@@ -350,7 +350,6 @@ export default function Studio() {
         body: JSON.stringify({ idea: p1Idea, contentType: p1Type, platform: p1Platform }),
       });
       const data = await response.json();
-      console.log("AI DATA", data)
       if (data.error) throw new Error(data.message || "Failed to generate guide");
       setP1Result(data);
       fetchHistory(); // Refresh archives list
@@ -361,6 +360,7 @@ export default function Studio() {
     }
   };
 
+  //handling validate agent
   const handleValidateDraft = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!p2Description.trim() && !p2Image) {
@@ -521,100 +521,106 @@ export default function Studio() {
           </div>
         </div>
 
-        {/* Workspace Layout: Grid Container */}
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-10">
-          <div className="xl:col-span-3 bg-black border border-white/10 p-5 space-y-4">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <div className="flex items-center gap-2">
-                <History className="w-4 h-4 text-[#FF4D00]" />
+        <div className="mb-10 bg-black border border-white/10 p-5 md:p-6 space-y-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
+            <div className="flex items-center gap-3">
+              <History className="w-4 h-4 text-[#FF4D00]" />
+              <div>
                 <h3 className="text-xs font-mono uppercase tracking-widest font-black text-white">Studio Archives</h3>
+                <p className="text-[10px] text-white/40 mt-0.5">Select a past run to restore its creative blueprint or validation state</p>
               </div>
-              <span className="text-[9px] font-mono bg-white/10 px-2 py-0.5 text-white/60">
+            </div>
+
+            {/* Search and Filters */}
+            <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+              {/* Search */}
+              <div className="relative min-w-[200px]">
+                <input
+                  type="text"
+                  placeholder="Search history..."
+                  value={historySearch}
+                  onChange={(e) => setHistorySearch(e.target.value)}
+                  className="w-full bg-[#111] border border-white/10 text-[10px] font-mono pl-8 pr-3 py-1.5 rounded-none outline-none text-white placeholder-white/30 focus:border-[#FF4D00] transition-colors"
+                />
+                <Search className="w-3.5 h-3.5 text-white/30 absolute left-2.5 top-1/2 -translate-y-1/2" />
+              </div>
+
+              {/* Filter */}
+              <div className="flex bg-white/5 p-0.5 text-[9px] font-mono rounded-none">
+                {(["all", "guide", "validate"] as const).map((f) => (
+                  <button
+                    key={f}
+                    type="button"
+                    onClick={() => setHistoryFilter(f)}
+                    className={`px-3 py-1 uppercase tracking-wider transition-colors cursor-pointer ${historyFilter === f
+                      ? "bg-[#FF4D00] text-white font-bold"
+                      : "text-white/40 hover:text-white"
+                      }`}
+                  >
+                    {f === "guide" ? "Briefs" : f === "validate" ? "Critique" : "All"}
+                  </button>
+                ))}
+              </div>
+
+              <span className="text-[9px] font-mono bg-white/10 px-2 py-1 text-white/60 text-center sm:text-left self-start sm:self-auto">
                 {historyList.length} Runs
               </span>
             </div>
-
-            {/* Search Input */}
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search history..."
-                value={historySearch}
-                onChange={(e) => setHistorySearch(e.target.value)}
-                className="w-full bg-[#111] border border-white/10 text-[10px] font-mono pl-8 pr-3 py-2 rounded-none outline-none text-white placeholder-white/30 focus:border-[#FF4D00] transition-colors"
-              />
-              <Search className="w-3.5 h-3.5 text-white/30 absolute left-2.5 top-1/2 -translate-y-1/2" />
-            </div>
-
-            {/* Filter Buttons */}
-            <div className="grid grid-cols-3 gap-1 bg-white/5 p-0.5 text-[9px] font-mono text-center">
-              {(["all", "guide", "validate"] as const).map((f) => (
-                <button
-                  key={f}
-                  type="button"
-                  onClick={() => setHistoryFilter(f)}
-                  className={`py-1 uppercase tracking-wider transition-colors cursor-pointer ${historyFilter === f
-                    ? "bg-[#FF4D00] text-white font-bold"
-                    : "text-white/40 hover:text-white"
-                    }`}
-                >
-                  {f === "guide" ? "Briefs" : f === "validate" ? "Critique" : "All"}
-                </button>
-              ))}
-            </div>
-
-            {/* Scrollable List Container */}
-            <div className="space-y-2.5 max-h-[500px] xl:max-h-[680px] overflow-y-auto pr-1">
-              {filteredHistory.length > 0 ? (
-                filteredHistory.map((item) => {
-                  const isSelected = selectedHistoryId === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => selectHistoryItem(item)}
-                      className={`w-full text-left p-3.5 border transition-all relative block group cursor-pointer ${isSelected
-                        ? "bg-[#FF4D00]/10 border-[#FF4D00] text-white"
-                        : "bg-[#111]/40 border-white/10 hover:border-white/30 text-white/70"
-                        }`}
-                    >
-                      <div className="flex justify-between items-center gap-2">
-                        <span className={`text-[8px] font-mono px-1.5 py-0.5 uppercase font-bold tracking-wider ${item.type === "guide"
-                          ? "bg-blue-950/40 text-blue-400 border border-blue-900/30"
-                          : "bg-amber-950/40 text-amber-400 border border-amber-900/30"
-                          }`}>
-                          {item.type === "guide" ? "Brief" : "Critique"}
-                        </span>
-                        <span className="text-[8px] font-mono text-white/30">{item.date}</span>
-                      </div>
-
-                      <h4 className="text-[11px] font-bold uppercase tracking-tight mt-2 group-hover:text-[#FF4D00] transition-colors line-clamp-1">
-                        {item.title}
-                      </h4>
-
-                      <p className="text-[10px] text-white/50 leading-relaxed font-sans line-clamp-2 mt-1">
-                        {item.idea}
-                      </p>
-
-                      <div className="flex gap-1.5 items-center mt-2 text-[8px] font-mono text-white/30 uppercase tracking-wider">
-                        <span>{item.platform}</span>
-                        <span>•</span>
-                        <span>{item.contentType}</span>
-                      </div>
-                    </button>
-                  );
-                })
-              ) : (
-                <div className="text-center py-10 border border-dashed border-white/10 text-white/40">
-                  <p className="text-[10px] font-mono uppercase tracking-widest">No runs found</p>
-                </div>
-              )}
-            </div>
           </div>
 
-          {/* Workspaces Section */}
-          <div className="xl:col-span-9">
-            {activeTab === "guide" && (
+          {/* Horizontal Scrollable Container */}
+          <div className="flex gap-4 overflow-x-auto pb-2 pt-1 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent snap-x">
+            {filteredHistory.length > 0 ? (
+              filteredHistory.map((item) => {
+                const isSelected = selectedHistoryId === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => selectHistoryItem(item)}
+                    className={`text-left p-4 border transition-all relative block group cursor-pointer min-w-[280px] sm:min-w-[320px] max-w-[320px] snap-start shrink-0 ${isSelected
+                      ? "bg-[#FF4D00]/10 border-[#FF4D00] text-white"
+                      : "bg-[#111]/40 border-white/10 hover:border-white/30 text-white/70"
+                      }`}
+                  >
+                    <div className="flex justify-between items-center gap-2 mb-2">
+                      <span className={`text-[8px] font-mono px-1.5 py-0.5 uppercase font-bold tracking-wider ${item.type === "guide"
+                        ? "bg-blue-950/40 text-blue-400 border border-blue-900/30"
+                        : "bg-amber-950/40 text-amber-400 border border-amber-900/30"
+                        }`}>
+                        {item.type === "guide" ? "Brief" : "Critique"}
+                      </span>
+                      <span className="text-[8px] font-mono text-white/30">{item.date}</span>
+                    </div>
+
+                    <h4 className="text-[11px] font-bold uppercase tracking-tight group-hover:text-[#FF4D00] transition-colors line-clamp-1">
+                      {item.title}
+                    </h4>
+
+                    <p className="text-[10px] text-white/50 leading-relaxed font-sans line-clamp-2 mt-1 min-h-[30px]">
+                      {item.idea}
+                    </p>
+
+                    <div className="flex gap-1.5 items-center mt-3 text-[8px] font-mono text-white/30 uppercase tracking-wider border-t border-white/5 pt-2">
+                      <span>{item.platform}</span>
+                      <span>•</span>
+                      <span>{item.contentType}</span>
+                    </div>
+                  </button>
+                );
+              })
+            ) : (
+              <div className="w-full text-center py-8 border border-dashed border-white/10 text-white/40 flex flex-col items-center justify-center">
+                <p className="text-[10px] font-mono uppercase tracking-widest">No runs found</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+
+        {/* Workspaces Section */}
+        <div className="w-full">
+          {activeTab === "guide" && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
               <div className="lg:col-span-5 space-y-6">
                 <div className="bg-black border border-white/10 p-6 md:p-8 space-y-6 relative">
@@ -1034,7 +1040,6 @@ export default function Studio() {
               </div>
             </div>
           )}
-          </div>
         </div>
       </section>
 

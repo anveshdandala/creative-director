@@ -76,10 +76,12 @@ export function useAppAuth(): AppAuthState {
 
   const isReady = isLoaded && synced;
 
-  const apiHeaders = useMemo(() => {
-    return token
-      ? { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
-      : { "Content-Type": "application/json" };
+  const apiHeaders = useMemo((): Record<string, string> => {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
   }, [token]);
 
   return {
